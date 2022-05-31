@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 public class FireflyRenderer extends MobRenderer<FireflyEntity, FireflyModel<FireflyEntity>>
 {
     protected static final ResourceLocation TEXTURE =
-            new ResourceLocation(FirefliesMod.MOD_ID, "textures/entity/pigeon.png");
+            new ResourceLocation(FirefliesMod.MOD_ID, "textures/entity/firefly.png");
 
     public FireflyRenderer(EntityRendererManager renderManagerIn) {
         super(renderManagerIn, new FireflyModel<>(), 0.2F);
