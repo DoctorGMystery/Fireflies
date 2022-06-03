@@ -1,9 +1,15 @@
 package de.doctorg.fireflies;
 
+import de.doctorg.fireflies.block.ModBlocks;
 import de.doctorg.fireflies.entity.EntityTypes;
 import de.doctorg.fireflies.entity.render.FireflyRenderer;
+import de.doctorg.fireflies.item.ModItems;
+import de.doctorg.fireflies.tileentity.ModTileEntities;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.world.gen.Heightmap;
@@ -37,6 +43,9 @@ public class FirefliesMod
     public FirefliesMod() {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
+        ModBlocks.register(eventBus);
+        ModItems.register(eventBus);
+        ModTileEntities.register(eventBus);
         EntityTypes.register(eventBus);
 
         // Register the setup method for modloading
@@ -64,8 +73,10 @@ public class FirefliesMod
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
-        // do something that can only be done on the client
-        RenderingRegistry.registerEntityRenderingHandler(EntityTypes.FIREFLY.get(), FireflyRenderer::new);
+        event.enqueueWork(() -> {
+
+        });
+            RenderingRegistry.registerEntityRenderingHandler(EntityTypes.FIREFLY.get(), FireflyRenderer::new);
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event)

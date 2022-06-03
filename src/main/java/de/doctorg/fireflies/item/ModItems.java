@@ -16,7 +16,7 @@ public class ModItems {
             DeferredRegister.create(ForgeRegistries.ITEMS, FirefliesMod.MOD_ID);
 
     public static final RegistryObject<ModSpawnEggItem> FIREFLY_SPAWN_EGG = ITEMS.register("firefly_spawn_egg",
-            () -> new ModSpawnEggItem(EntityTypes.FIREFLY, 0x869995, 0x576ABC,
+            () -> new ModSpawnEggItem(EntityTypes.FIREFLY, 0xFFC800, 0x332700,
                     new Item.Properties().group(ItemGroup.MISC)));
 
     public static void register(IEventBus eventBus) {

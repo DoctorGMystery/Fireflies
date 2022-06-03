@@ -25,6 +25,7 @@ public class FireflyModel<T extends FireflyEntity> extends EntityModel<T> {
 	@Override
 	public void setRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch){
 		//previously the render function, render code was moved to a method below
+		this.body.rotateAngleX = 0.0f;
 	}
 
 	@Override

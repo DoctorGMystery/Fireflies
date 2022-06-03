@@ -21,9 +21,9 @@ public class FireflyEntity extends ParrotEntity {
 
     public static AttributeModifierMap.MutableAttribute setCustomAttributes() {
         return MobEntity.func_233666_p_()
-                .createMutableAttribute(Attributes.MAX_HEALTH,3.0D)
-                .createMutableAttribute(Attributes.FLYING_SPEED, 1.3D)
-                .createMutableAttribute(Attributes.MOVEMENT_SPEED,1.6D);
+                .createMutableAttribute(Attributes.MAX_HEALTH,1.5D)
+                .createMutableAttribute(Attributes.FLYING_SPEED, 0.5D)
+                .createMutableAttribute(Attributes.MOVEMENT_SPEED,0.2D);
 
     }
 
@@ -40,29 +40,33 @@ public class FireflyEntity extends ParrotEntity {
     @Override
     protected int getExperiencePoints(PlayerEntity player)
     {
-        return 1 + this.world.rand.nextInt(4);
+        return 1 + this.world.rand.nextInt(1);
     }
 
     @Override
     public SoundEvent getAmbientSound() {
-        this.playSound(SoundEvents.ENTITY_CHICKEN_AMBIENT, 0.2F, 1.0F);
+        this.playSound(SoundEvents.ENTITY_BEE_LOOP, 0.2F, 1.0F);
         return null;
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        this.playSound(SoundEvents.ENTITY_RABBIT_HURT, 1.0F, 1.7F);
+        this.playSound(SoundEvents.ENTITY_BEE_HURT, 1.0F, 1.7F);
         return null;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        this.playSound(SoundEvents.ENTITY_PARROT_DEATH, 0.7F, 2.0F);
+        this.playSound(SoundEvents.ENTITY_BEE_DEATH, 0.7F, 2.0F);
         return null;
     }
 
     @Override
     public Vector3d getLeashStartPosition() {
         return new Vector3d(5.0D, (5.5F * this.getEyeHeight()), (this.getWidth() * 5.4F));
+    }
+
+    public boolean InNotFullBlock() {
+        return true;
     }
 }
