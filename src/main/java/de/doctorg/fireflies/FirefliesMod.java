@@ -40,6 +40,7 @@ public class FirefliesMod
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         ModBlocks.register(eventBus);
+        ModItems.register(eventBus);
         EntityTypes.register(eventBus);
 
         // Register the setup method for modloading

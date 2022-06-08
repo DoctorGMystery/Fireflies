@@ -1,5 +1,9 @@
 package de.doctorg.fireflies.entity.custom;
 
+import de.doctorg.fireflies.FirefliesMod;
+import de.doctorg.fireflies.block.ModBlocks;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
@@ -10,9 +14,14 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import org.jetbrains.annotations.Nullable;
 
+@Mod.EventBusSubscriber(modid = FirefliesMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class FireflyEntity extends ParrotEntity {
     public FireflyEntity(EntityType<? extends ParrotEntity> type, World worldIn) {
         super(type, worldIn);
@@ -62,8 +71,184 @@ public class FireflyEntity extends ParrotEntity {
     }
 
     @Override
-    public Vector3d getLeashStartPosition() {
-        return new Vector3d(5.0D, (5.5F * this.getEyeHeight()), (this.getWidth() * 5.4F));
+    public void livingTick() {
+        super.livingTick();
+        BlockPos oldPos = getBlockPosition();
+        /*if (getBlockPosition().down() != getBlockPosition() ||
+                getBlockPosition().up() != getBlockPosition() ||
+                getBlockPosition().east() != getBlockPosition() ||
+                getBlockPosition().south() != getBlockPosition() ||
+                getBlockPosition().west() != getBlockPosition() ||
+                getBlockPosition().north() != getBlockPosition()) {
+
+            //System.out.println("check change");
+            if (!world.isRemote()) {
+                BlockPos copyPos = oldPos.add(-1,-1,-1);
+                for (int i = 0; i < 9; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        if (world.getBlockState(copyPos) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState()) {
+                            world.setBlockState(copyPos, Blocks.AIR.getDefaultState());
+                            //System.out.println("remove block at" + copyPos);
+                        }
+                        copyPos = copyPos.add(1,copyPos.getY(),copyPos.getZ());
+                        //System.out.println("add 1 to x");
+                        //System.out.println(copyPos);
+                    }
+                    if (copyPos != oldPos.add(oldPos.getX(),oldPos.getY(),3)) {
+                        copyPos = copyPos.add(oldPos.getX(),copyPos.getY(),1);
+                        //System.out.println("add 1 to z and reset x");
+                    }
+                    if (copyPos == oldPos.add(oldPos.getX(),oldPos.getY(),3)) {
+                        copyPos = copyPos.add(-3, 1, -3);
+                        //System.out.println("add 1 to y and reset z and x");
+                    }
+                }*/
+                    if (world.getBlockState(oldPos.down()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState())
+                    {
+                        world.setBlockState(oldPos.down(), Blocks.AIR.getDefaultState());
+                    }
+                    if (world.getBlockState(oldPos.up()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState())
+                    {
+                        world.setBlockState(oldPos.up(), Blocks.AIR.getDefaultState());
+                    }
+                    if (world.getBlockState(oldPos.north()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState())
+                    {
+                        world.setBlockState(oldPos.north(), Blocks.AIR.getDefaultState());
+                    }
+                    if (world.getBlockState(oldPos.east()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState())
+                    {
+                        world.setBlockState(oldPos.east(), Blocks.AIR.getDefaultState());
+                    }
+                    if (world.getBlockState(oldPos.south()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState())
+                    {
+                        world.setBlockState(oldPos.south(), Blocks.AIR.getDefaultState());
+                    }
+                    if (world.getBlockState(oldPos.west()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState())
+                    {
+                        world.setBlockState(oldPos.west(), Blocks.AIR.getDefaultState());
+                    }
+                    if (world.getBlockState(oldPos.down().west().north()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState())
+                    {
+                        world.setBlockState(oldPos.down().west().north(), Blocks.AIR.getDefaultState());
+                    }
+                    if (world.getBlockState(oldPos.down().east().south()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState())
+                    {
+                        world.setBlockState(oldPos.down().east().south(), Blocks.AIR.getDefaultState());
+                    }
+                    if (world.getBlockState(oldPos.up().west().north()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState())
+                    {
+                        world.setBlockState(oldPos.up().west().north(), Blocks.AIR.getDefaultState());
+                    }
+                    if (world.getBlockState(oldPos.up().west().south()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState())
+                    {
+                        world.setBlockState(oldPos.up().west().south(), Blocks.AIR.getDefaultState());
+                    }
+                    if (world.getBlockState(oldPos.down().east().north()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState())
+                    {
+                        world.setBlockState(oldPos.down().east().north(), Blocks.AIR.getDefaultState());
+                    }
+                    if (world.getBlockState(oldPos.down().west().south()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState())
+                    {
+                        world.setBlockState(oldPos.down().west().south(), Blocks.AIR.getDefaultState());
+                    }
+                    if (world.getBlockState(oldPos.up().west().south()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState())
+                    {
+                        world.setBlockState(oldPos.up().west().south(), Blocks.AIR.getDefaultState());
+                    }
+                    if (world.getBlockState(oldPos.up().east().north()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState())
+                    {
+                        world.setBlockState(oldPos.up().east().north(), Blocks.AIR.getDefaultState());
+                    }
+                    if (world.getBlockState(oldPos.down().north()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState())
+                    {
+                        world.setBlockState(oldPos.down().north(), Blocks.AIR.getDefaultState());
+                    }
+                    if (world.getBlockState(oldPos.down().east()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState())
+                    {
+                        world.setBlockState(oldPos.down().east(), Blocks.AIR.getDefaultState());
+                    }
+                    if (world.getBlockState(oldPos.down().south()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState())
+                    {
+                        world.setBlockState(oldPos.down().south(), Blocks.AIR.getDefaultState());
+                    }
+                    if (world.getBlockState(oldPos.down().west()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState())
+                    {
+                        world.setBlockState(oldPos.down().west(), Blocks.AIR.getDefaultState());
+                    }
+                    if (world.getBlockState(oldPos.up().north()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState())
+                    {
+                        world.setBlockState(oldPos.up().north(), Blocks.AIR.getDefaultState());
+                    }
+                    if (world.getBlockState(oldPos.up().east()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState())
+                    {
+                        world.setBlockState(oldPos.up().east(), Blocks.AIR.getDefaultState());
+                    }
+                    if (world.getBlockState(oldPos.up().south()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState())
+                    {
+                        world.setBlockState(oldPos.up().south(), Blocks.AIR.getDefaultState());
+                    }
+                    if (world.getBlockState(oldPos.up().west()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState())
+                    {
+                        world.setBlockState(oldPos.up().west(), Blocks.AIR.getDefaultState());
+                    }
+                    if (world.getBlockState(oldPos.east().north()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState())
+                    {
+                        world.setBlockState(oldPos.east().north(), Blocks.AIR.getDefaultState());
+                    }
+                    if (world.getBlockState(oldPos.east().south()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState())
+                    {
+                        world.setBlockState(oldPos.east().south(), Blocks.AIR.getDefaultState());
+                    }
+                    if (world.getBlockState(oldPos.west().north()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState())
+                    {
+                        world.setBlockState(oldPos.west().north(), Blocks.AIR.getDefaultState());
+                    }
+                    if (world.getBlockState(oldPos.west().south()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState())
+                    {
+                        world.setBlockState(oldPos.west().south(), Blocks.AIR.getDefaultState());
+                    }
+
+
+                    /*world.setBlockState(oldPos.north(), Blocks.AIR.getDefaultState());
+                    world.setBlockState(oldPos.east(), Blocks.AIR.getDefaultState());
+                    world.setBlockState(oldPos.south(), Blocks.AIR.getDefaultState());
+                    world.setBlockState(oldPos.west(), Blocks.AIR.getDefaultState());
+                    world.setBlockState(oldPos.down().west().south(), Blocks.AIR.getDefaultState());
+                    world.setBlockState(oldPos.down().west().north(), Blocks.AIR.getDefaultState());
+                    world.setBlockState(oldPos.down().east().south(), Blocks.AIR.getDefaultState());
+                    world.setBlockState(oldPos.down().east().north(), Blocks.AIR.getDefaultState());
+                    world.setBlockState(oldPos.up().west().south(), Blocks.AIR.getDefaultState());
+                    world.setBlockState(oldPos.up().west().north(), Blocks.AIR.getDefaultState());
+                    world.setBlockState(oldPos.up().east().south(), Blocks.AIR.getDefaultState());
+                    world.setBlockState(oldPos.up().east().north(), Blocks.AIR.getDefaultState());*/
+                    //System.out.println("remove old");
+
+                if (world.getBlockState(this.getPosition()) == Blocks.AIR.getDefaultState())
+                {
+                    world.setBlockState(this.getPosition(), ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState());
+                    //System.out.println("set new");
+                }
+            }
+        /*}
+    }*/
+
+    /*@SubscribeEvent
+    public void LightFirefly(PlayerEntity player, World world) {
+        BlockPos oldPos = getBlockPosition();
+        System.out.println("save Block Pos");
+        if (oldPos != this.getPosition()) {
+            System.out.println("check change");
+            if (!world.isRemote()) {
+                world.setBlockState(oldPos, Blocks.AIR.getDefaultState());
+                System.out.println("remove old");
+                world.setBlockState(this.getPosition(), ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState());
+                System.out.println("set new");
+            }
+        }
+    }*/
+
+    private BlockPos getBlockPosition() {
+        return this.getPosition();
     }
 
     public boolean InNotFullBlock() {
