@@ -1,7 +1,9 @@
 package de.doctorg.fireflies;
 
 import de.doctorg.fireflies.block.ModBlocks;
+import de.doctorg.fireflies.block.custom.lightEmittingBlock;
 import de.doctorg.fireflies.entity.EntityTypes;
+import de.doctorg.fireflies.entity.custom.FireflyEntity;
 import de.doctorg.fireflies.entity.render.FireflyRenderer;
 import de.doctorg.fireflies.item.ModItems;
 import net.minecraft.block.Block;
@@ -54,6 +56,9 @@ public class FirefliesMod
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
+
+        MinecraftForge.EVENT_BUS.register(lightEmittingBlock.class);
+        MinecraftForge.EVENT_BUS.register(FireflyEntity.class);
     }
 
     private void setup(final FMLCommonSetupEvent event)

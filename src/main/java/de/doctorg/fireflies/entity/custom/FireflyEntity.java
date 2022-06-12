@@ -1,8 +1,7 @@
 package de.doctorg.fireflies.entity.custom;
 
-import de.doctorg.fireflies.FirefliesMod;
 import de.doctorg.fireflies.block.ModBlocks;
-import net.minecraft.block.Block;
+import de.doctorg.fireflies.entity.EntityTypes;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
@@ -15,13 +14,15 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.EntityLeaveWorldEvent;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import org.jetbrains.annotations.Nullable;
 
-@Mod.EventBusSubscriber(modid = FirefliesMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+import java.util.List;
+
 public class FireflyEntity extends ParrotEntity {
     public FireflyEntity(EntityType<? extends ParrotEntity> type, World worldIn) {
         super(type, worldIn);
@@ -251,7 +252,26 @@ public class FireflyEntity extends ParrotEntity {
         return this.getPosition();
     }
 
-    public boolean InNotFullBlock() {
-        return true;
+    public static List Entities;
+
+    @SubscribeEvent
+    public static void Test(EntityJoinWorldEvent event) {
+        if (event.getEntity().getType() == EntityTypes.FIREFLY.get()) {
+            if (event.getEntity().getTags().contains("checked")) {
+                System.out.println("Firefly was already checked");
+            } else {
+                event.getEntity().addTag("checked");
+                System.out.println("Firefly spawned");
+                System.out.println(event.getEntity().getUniqueID());
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void RemoveLightOnLeavingWorld(EntityLeaveWorldEvent event) {
+        if (event.getEntity().getType() == EntityTypes.FIREFLY.get()) {
+            BlockPos localLight = event.getEntity().getPosition();
+            event.getWorld().setBlockState(localLight, Blocks.AIR.getDefaultState());
+        }
     }
 }
