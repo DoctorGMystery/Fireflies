@@ -3,7 +3,9 @@ package de.doctorg.fireflies.block.custom;
 import de.doctorg.fireflies.block.ModBlocks;
 import de.doctorg.fireflies.entity.EntityTypes;
 import de.doctorg.fireflies.entity.custom.FireflyEntity;
+import de.doctorg.fireflies.tileentity.ModTileEntities;
 import net.minecraft.block.*;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -17,6 +19,7 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.lwjgl.system.CallbackI;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
@@ -44,7 +47,7 @@ public class lightEmittingBlock extends AirBlock {
     }*/
 
     @SubscribeEvent
-    public static void test(BlockEvent event) {
+    public static void ResetBlockIfNoFireflyNearby(BlockEvent event) {
         if (event.getState() == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState()) {
             BlockPos posMin = event.getPos().down().north().west();
             BlockPos posMax = event.getPos().up().south().east();
@@ -57,5 +60,16 @@ public class lightEmittingBlock extends AirBlock {
                 }
             }
         }
+    }
+
+    @Nullable
+    @Override
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+        return ModTileEntities.LIGHT_EMITTING_TILE.get().create();
+    }
+
+    @Override
+    public boolean hasTileEntity(BlockState state) {
+        return true;
     }
 }
