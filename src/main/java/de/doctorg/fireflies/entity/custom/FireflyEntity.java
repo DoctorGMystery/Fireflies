@@ -74,35 +74,7 @@ public class FireflyEntity extends ParrotEntity {
     public void livingTick() {
         super.livingTick();
         BlockPos oldPos = getBlockPosition();
-        /*if (getBlockPosition().down() != getBlockPosition() ||
-                getBlockPosition().up() != getBlockPosition() ||
-                getBlockPosition().east() != getBlockPosition() ||
-                getBlockPosition().south() != getBlockPosition() ||
-                getBlockPosition().west() != getBlockPosition() ||
-                getBlockPosition().north() != getBlockPosition()) {
 
-            //System.out.println("check change");
-            if (!world.isRemote()) {
-                BlockPos copyPos = oldPos.add(-1,-1,-1);
-                for (int i = 0; i < 9; i++) {
-                    for (int j = 0; j < 3; j++) {
-                        if (world.getBlockState(copyPos) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState()) {
-                            world.setBlockState(copyPos, Blocks.AIR.getDefaultState());
-                            //System.out.println("remove block at" + copyPos);
-                        }
-                        copyPos = copyPos.add(1,copyPos.getY(),copyPos.getZ());
-                        //System.out.println("add 1 to x");
-                        //System.out.println(copyPos);
-                    }
-                    if (copyPos != oldPos.add(oldPos.getX(),oldPos.getY(),3)) {
-                        copyPos = copyPos.add(oldPos.getX(),copyPos.getY(),1);
-                        //System.out.println("add 1 to z and reset x");
-                    }
-                    if (copyPos == oldPos.add(oldPos.getX(),oldPos.getY(),3)) {
-                        copyPos = copyPos.add(-3, 1, -3);
-                        //System.out.println("add 1 to y and reset z and x");
-                    }
-                }*/
         if (world.getBlockState(oldPos.down()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState())
         {
             updateTileEntity(oldPos.down());
@@ -390,14 +362,15 @@ public class FireflyEntity extends ParrotEntity {
             }
         }
 
-
-                if (world.getBlockState(this.getPosition()) == Blocks.AIR.getDefaultState())
-                {
-                    world.setBlockState(this.getPosition(), ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState());
-                    updateTileEntity(getPosition());
-                    this.tileEntity.setId(this.getUniqueID().toString());
-                }
+        if (!world.isDaytime()) {
+            if (world.getBlockState(this.getPosition()) == Blocks.AIR.getDefaultState())
+            {
+                world.setBlockState(this.getPosition(), ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState());
+                updateTileEntity(getPosition());
+                this.tileEntity.setId(this.getUniqueID().toString());
             }
+        }
+    }
 
     private BlockPos getBlockPosition() {
         return this.getPosition();

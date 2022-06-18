@@ -60,7 +60,6 @@ public class FirefliesMod
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
 
-        MinecraftForge.EVENT_BUS.register(lightEmittingBlock.class);
         MinecraftForge.EVENT_BUS.register(FireflyEntity.class);
     }
 
