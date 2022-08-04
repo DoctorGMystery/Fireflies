@@ -26,15 +26,14 @@ public class LightEmittingBlockTileEntity extends TileEntity implements ITickabl
 
     @Override
     public CompoundNBT write(CompoundNBT compound) {
-        super.write(compound);
         compound.putString("id", LightEmittingBlockTileEntity.this.id);
-        return compound;
+        return super.write(compound);
     }
 
     @Override
     public void read(BlockState state, CompoundNBT nbt) {
-        super.read(state, nbt);
         LightEmittingBlockTileEntity.this.id = nbt.getString("id");
+        super.read(state, nbt);
     }
 
 
