@@ -22,7 +22,7 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> LIGHT_EMITTING_BLOCK = BLOCKS.register("light_emitting_block",
             () -> new lightEmittingBlock(AbstractBlock.Properties.create(Material.AIR).setLightLevel((state) -> {
-                return 15;
+                return 5;
             }).doesNotBlockMovement().noDrops().setAir()));
 
     private static <T extends Block>RegistryObject<T> registerBlock(String name, Supplier<T> block)
