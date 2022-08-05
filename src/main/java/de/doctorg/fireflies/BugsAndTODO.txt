@@ -1,6 +1,5 @@
 bugs:
--Light bugs on Fireflies updating blocks in distance -2022.07.05
--Flickering Lights when firefly flies
+
 
 -TODO: Change movement and behaviour of Firefly
 -TODO: Bugfixes

@@ -18,10 +18,13 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.EntityLeaveWorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+
+import java.util.List;
 
 public class FireflyEntity extends ParrotEntity{
 
@@ -91,60 +94,62 @@ public class FireflyEntity extends ParrotEntity{
     public void livingTick() {
         super.livingTick();
 
-        if (!world.isRemote)
-        {
-            if (!world.isDaytime()) {
-                if (getLightedTime() == -1) {
-                    setLightedTime(0);
-                }
-                if (getUnlightedTime() == 0 && this.dataManager.get(LAST_LIGHT_PHASE) == 0) {
-                    setLightedTime((int) ((Math.random() * (62 - 21)) + 21));
-                    this.dataManager.set(LAST_LIGHT_PHASE, 1);
-                }
-                if (getUnlightedTime() == -1) {
-                    setUnlightedTime(0);
-                }
-                if (getLightedTime() == 0 && this.dataManager.get(LAST_LIGHT_PHASE) == 1) {
-                    setUnlightedTime((int) ((Math.random() * (19 - 11)) + 11));
-                    this.dataManager.set(LAST_LIGHT_PHASE, 0);
-                }
-
-                if (getLightedTime() != 0) {
-                    if (this.world.getBlockState(this.getPosition()) == Blocks.AIR.getDefaultState() || this.world.getBlockState(this.getPosition()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState()) {
-                        this.world.setBlockState(this.getPosition(), ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState(), 3);
-                        updateTileEntity(this.getPosition());
-
-                        if (this.tileEntity != null) {
-                            this.tileEntity.setId(this.getUniqueID().toString());
-                        }
+        if (checkForPlayerIsNearby(this.getPosition(), this.world)) {
+            if (!world.isRemote)
+            {
+                if (!world.isDaytime()) {
+                    if (getLightedTime() == -1) {
+                        setLightedTime(0);
                     }
-                    setLightedTime(getLightedTime() - 1);
-                }
+                    if (getUnlightedTime() == 0 && this.dataManager.get(LAST_LIGHT_PHASE) == 0) {
+                        setLightedTime((int) ((Math.random() * (62 - 21)) + 21));
+                        this.dataManager.set(LAST_LIGHT_PHASE, 1);
+                    }
+                    if (getUnlightedTime() == -1) {
+                        setUnlightedTime(0);
+                    }
+                    if (getLightedTime() == 0 && this.dataManager.get(LAST_LIGHT_PHASE) == 1) {
+                        setUnlightedTime((int) ((Math.random() * (19 - 11)) + 11));
+                        this.dataManager.set(LAST_LIGHT_PHASE, 0);
+                    }
 
-                if (getUnlightedTime() != 0) {
-                    updateTileEntity(this.getPosition());
-                    if (world.getBlockState(this.getPosition()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState())
-                    {
-                        if (this.tileEntity != null) {
-                            if (this.tileEntity.getId() != null) {
-                                if (this.tileEntity.getId().equals(this.getUniqueID().toString())) {
-                                    world.setBlockState(this.getPosition(), Blocks.AIR.getDefaultState());
+                    if (getLightedTime() != 0) {
+                        if (this.world.getBlockState(this.getPosition()) == Blocks.AIR.getDefaultState() || this.world.getBlockState(this.getPosition()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState()) {
+                            this.world.setBlockState(this.getPosition(), ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState(), 3);
+                            updateTileEntity(this.getPosition(), this.world);
+
+                            if (this.tileEntity != null) {
+                                this.tileEntity.setId(this.getUniqueID().toString());
+                            }
+                        }
+                        setLightedTime(getLightedTime() - 1);
+                    }
+
+                    if (getUnlightedTime() != 0) {
+                        updateTileEntity(this.getPosition(), this.world);
+                        if (world.getBlockState(this.getPosition()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState())
+                        {
+                            if (this.tileEntity != null) {
+                                if (this.tileEntity.getId() != null) {
+                                    if (this.tileEntity.getId().equals(this.getUniqueID().toString())) {
+                                        world.setBlockState(this.getPosition(), Blocks.AIR.getDefaultState());
+                                    }
                                 }
                             }
                         }
+
+                        setUnlightedTime(getUnlightedTime() - 1);
                     }
-
-                    setUnlightedTime(getUnlightedTime() - 1);
+                } else {
+                    setLightedTime(-1);
+                    setUnlightedTime(-1);
                 }
-            } else {
-                setLightedTime(-1);
-                setUnlightedTime(-1);
-            }
 
-            this.setLighted(world.getBlockState(this.getPosition()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState() ||
-                    (world.getBlockState(this.getPosition()) == Blocks.AIR.getDefaultState() && !world.isDaytime() && this.getLightedTime() != 0));
-            if (world.isDaytime()) {
-                this.setLighted(false);
+                this.setLighted(world.getBlockState(this.getPosition()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState() ||
+                        (world.getBlockState(this.getPosition()) == Blocks.AIR.getDefaultState() && !world.isDaytime() && this.getLightedTime() != 0));
+                if (world.isDaytime()) {
+                    this.setLighted(false);
+                }
             }
         }
     }
@@ -181,13 +186,24 @@ public class FireflyEntity extends ParrotEntity{
         this.dataManager.set(UNLIGHTED_TIME, unlightedTime);
     }
 
-    public void updateTileEntity(BlockPos pos) {
-        if (this.world.getTileEntity(pos) != null) {
-            if (this.world.getTileEntity(pos).getType() == ModTileEntities.LIGHT_EMITTING_TILE.get()) {
-                this.tileEntity = (LightEmittingBlockTileEntity) this.world.getTileEntity(pos);
+    public void updateTileEntity(BlockPos pos, World world) {
+        if (world.getTileEntity(pos) != null) {
+            if (world.getTileEntity(pos).getType() == ModTileEntities.LIGHT_EMITTING_TILE.get()) {
+                tileEntity = (LightEmittingBlockTileEntity) world.getTileEntity(pos);
             } else {
-                this.tileEntity = null;
+                tileEntity = null;
             }
+        }
+    }
+
+    public boolean checkForPlayerIsNearby(BlockPos pos, World world) {
+        BlockPos posMax = new BlockPos(pos.getX() + 79, pos.getY() + 200, pos.getZ() + 79);
+        BlockPos posMin = new BlockPos(pos.getX() - 79, pos.getY() - 200, pos.getZ() - 79);
+        List<PlayerEntity> players = world.getEntitiesWithinAABB(PlayerEntity.class, new AxisAlignedBB(posMax, posMin));
+        if (players.isEmpty()) {
+            return false;
+        } else {
+            return true;
         }
     }
 }
