@@ -18,7 +18,7 @@ public class EntityTypes {
 
     public static final RegistryObject<EntityType<FireflyEntity>> FIREFLY =
             ENTITY_TYPES.register("firefly", () -> EntityType.Builder.create(FireflyEntity::new,
-                            EntityClassification.CREATURE).size(0.4f, 0.3f)
+                            EntityClassification.AMBIENT).size(0.4f, 0.3f)
                     .build(new ResourceLocation(FirefliesMod.MOD_ID, "pigeon").toString()));
 
     public static void register(IEventBus eventBus) {

@@ -98,14 +98,14 @@ public class FireflyEntity extends ParrotEntity{
                     setLightedTime(0);
                 }
                 if (getUnlightedTime() == 0 && this.dataManager.get(LAST_LIGHT_PHASE) == 0) {
-                    setLightedTime((int) ((Math.random() * (62 - 41)) + 41));
+                    setLightedTime((int) ((Math.random() * (62 - 21)) + 21));
                     this.dataManager.set(LAST_LIGHT_PHASE, 1);
                 }
                 if (getUnlightedTime() == -1) {
                     setUnlightedTime(0);
                 }
                 if (getLightedTime() == 0 && this.dataManager.get(LAST_LIGHT_PHASE) == 1) {
-                    setUnlightedTime((int) ((Math.random() * (22 - 11)) + 11));
+                    setUnlightedTime((int) ((Math.random() * (19 - 11)) + 11));
                     this.dataManager.set(LAST_LIGHT_PHASE, 0);
                 }
 
@@ -115,7 +115,6 @@ public class FireflyEntity extends ParrotEntity{
                         updateTileEntity(this.getPosition());
 
                         if (this.tileEntity != null) {
-                            System.out.println("Seted");
                             this.tileEntity.setId(this.getUniqueID().toString());
                         }
                     }
@@ -124,7 +123,6 @@ public class FireflyEntity extends ParrotEntity{
 
                 if (getUnlightedTime() != 0) {
                     updateTileEntity(this.getPosition());
-                    //resetLights(this.getPosition());
                     if (world.getBlockState(this.getPosition()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState())
                     {
                         if (this.tileEntity != null) {
@@ -138,9 +136,6 @@ public class FireflyEntity extends ParrotEntity{
 
                     setUnlightedTime(getUnlightedTime() - 1);
                 }
-                //System.out.println("Lighted Time: " + getLightedTime());
-                //System.out.println("Unlighted Time: " + getUnlightedTime());
-                //System.out.println("Last Phase: " + this.dataManager.get(LAST_LIGHT_PHASE));
             } else {
                 setLightedTime(-1);
                 setUnlightedTime(-1);
@@ -158,6 +153,7 @@ public class FireflyEntity extends ParrotEntity{
     public static void removeLightOnLeavingWorld(EntityLeaveWorldEvent event) {
         if (event.getEntity().getType() == EntityTypes.FIREFLY.get()) {
             event.getWorld().setBlockState(event.getEntity().getPosition(), Blocks.AIR.getDefaultState());
+            System.out.println();
         }
     }
 

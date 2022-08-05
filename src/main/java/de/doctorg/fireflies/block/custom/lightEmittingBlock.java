@@ -17,7 +17,7 @@ public class lightEmittingBlock extends AirBlock {
     }
 
     public BlockRenderType getRenderType(BlockState state) {
-        return BlockRenderType.MODEL;
+        return BlockRenderType.INVISIBLE;
     }
 
     @Nullable

@@ -1,7 +1,6 @@
 package de.doctorg.fireflies;
 
 import de.doctorg.fireflies.block.ModBlocks;
-import de.doctorg.fireflies.block.custom.lightEmittingBlock;
 import de.doctorg.fireflies.entity.EntityTypes;
 import de.doctorg.fireflies.entity.custom.FireflyEntity;
 import de.doctorg.fireflies.entity.render.FireflyRenderer;

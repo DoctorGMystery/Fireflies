@@ -13,10 +13,9 @@ import java.util.List;
 
 public class ModEntityGeneration {
     public static void onEntitySpawn(final BiomeLoadingEvent event) {
-        addEntityToAllBiomesExceptThese(event, EntityTypes.FIREFLY.get(),
-                50, 4, 12, Biomes.PLAINS, Biomes.BEACH);
         addEntityToSpecificBiomes(event, EntityTypes.FIREFLY.get(),
-                50, 1, 5, Biomes.SWAMP, Biomes.FOREST, Biomes.JUNGLE, Biomes.JUNGLE_EDGE, Biomes.JUNGLE_HILLS, Biomes.BIRCH_FOREST, Biomes.BIRCH_FOREST_HILLS, Biomes.TALL_BIRCH_FOREST, Biomes.TALL_BIRCH_HILLS, Biomes.DARK_FOREST, Biomes.DARK_FOREST_HILLS, Biomes.FLOWER_FOREST, Biomes.SAVANNA, Biomes.SAVANNA_PLATEAU, Biomes.SHATTERED_SAVANNA_PLATEAU, Biomes.SHATTERED_SAVANNA, Biomes.SWAMP_HILLS);
+                12, 5, 10,
+                Biomes.SWAMP, Biomes.FOREST, Biomes.JUNGLE, Biomes.JUNGLE_EDGE, Biomes.JUNGLE_HILLS, Biomes.BIRCH_FOREST, Biomes.BIRCH_FOREST_HILLS, Biomes.TALL_BIRCH_FOREST, Biomes.TALL_BIRCH_HILLS, Biomes.DARK_FOREST, Biomes.DARK_FOREST_HILLS, Biomes.FLOWER_FOREST, Biomes.SAVANNA, Biomes.SAVANNA_PLATEAU, Biomes.SHATTERED_SAVANNA_PLATEAU, Biomes.SHATTERED_SAVANNA, Biomes.SWAMP_HILLS);
     }
 
     private static void addEntityToAllBiomesExceptThese(BiomeLoadingEvent event, EntityType<?> type,
