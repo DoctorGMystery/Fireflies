@@ -2,5 +2,5 @@ bugs:
 
 
 -TODO: Change movement and behaviour of Firefly
--TODO: Bugfixes
--TODO: Cleanup Code
+-TODO: Bugfixes(Always todo)
+-TODO: Cleanup Code(Always todo)
