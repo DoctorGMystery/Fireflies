@@ -1,7 +1,6 @@
 package de.doctorg.fireflies.entity.custom;
 
 import de.doctorg.fireflies.block.ModBlocks;
-import de.doctorg.fireflies.entity.EntityTypes;
 import de.doctorg.fireflies.tileentity.LightEmittingBlockTileEntity;
 import de.doctorg.fireflies.tileentity.ModTileEntities;
 import net.minecraft.block.Block;
@@ -11,7 +10,10 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.controller.FlyingMovementController;
-import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
+import net.minecraft.entity.ai.goal.PanicGoal;
 import net.minecraft.entity.passive.ParrotEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.datasync.DataParameter;
@@ -24,7 +26,6 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.entity.EntityLeaveWorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -200,11 +201,7 @@ public class FireflyEntity extends ParrotEntity{
         BlockPos posMax = new BlockPos(pos.getX() + 79, pos.getY() + 200, pos.getZ() + 79);
         BlockPos posMin = new BlockPos(pos.getX() - 79, pos.getY() - 200, pos.getZ() - 79);
         List<PlayerEntity> players = world.getEntitiesWithinAABB(PlayerEntity.class, new AxisAlignedBB(posMax, posMin));
-        if (players.isEmpty()) {
-            return false;
-        } else {
-            return true;
-        }
+        return !players.isEmpty();
     }
 
     static class AvoidFluid extends Goal {

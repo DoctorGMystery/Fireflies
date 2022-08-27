@@ -54,7 +54,7 @@ public class LightEmittingBlockTileEntity extends TileEntity implements ITickabl
                 FireflyEntity entity = Entities.get(i);
                 if (this.getId() != null) {
                     if (LightEmittingBlockTileEntity.this.getId().equals(entity.getUniqueID().toString())) {
-                        if (entity.getLighted() == false) {
+                        if (!entity.getLighted()) {
                             this.getWorld().setBlockState(this.getPos(), Blocks.AIR.getDefaultState());
                         }
                     }

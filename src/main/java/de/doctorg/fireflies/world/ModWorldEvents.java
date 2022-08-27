@@ -12,7 +12,6 @@ public class ModWorldEvents {
 
     @SubscribeEvent
     public static void biomeLoadingEvent(final BiomeLoadingEvent event) {
-
         ModEntityGeneration.onEntitySpawn(event);
     }
 }

@@ -6,7 +6,6 @@ import de.doctorg.fireflies.entity.model.FireflyModel;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.event.entity.EntityLeaveWorldEvent;
 
 public class FireflyRenderer extends MobRenderer<FireflyEntity, FireflyModel<FireflyEntity>>
 {
