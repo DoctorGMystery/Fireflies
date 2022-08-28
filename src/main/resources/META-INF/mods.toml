@@ -6,7 +6,7 @@ license="All rights reserved"
 [[mods]] #mandatory
 modId="fireflies" #mandatory
 version="1.0" #mandatory
-displayName="Fireflies by DoctorG_Mystery" #mandatory
+displayName="Fireflies" #mandatory
 logoFile="examplemod.png" #optional
 credits="Credits goes to Kaupenjoe for his amazing tutorials!" #optional
 authors="DoctorG_Mystery" #optional
