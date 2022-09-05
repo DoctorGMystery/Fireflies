@@ -1,7 +1,7 @@
 package de.doctorg.fireflies;
 
 import de.doctorg.fireflies.block.ModBlocks;
-import de.doctorg.fireflies.config.custom.FirefliesConfig;
+import de.doctorg.fireflies.config.custom.FireflySpawnConfig;
 import de.doctorg.fireflies.entity.EntityTypes;
 import de.doctorg.fireflies.entity.custom.FireflyEntity;
 import de.doctorg.fireflies.entity.render.FireflyRenderer;
@@ -15,10 +15,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
@@ -35,7 +33,7 @@ public class FirefliesMod
     public static final String MOD_ID = "fireflies";
 
     // Directly reference a log4j logger.
-    private static final Logger LOGGER = LogManager.getLogger();
+    public static final Logger LOGGER = LogManager.getLogger();
 
     public FirefliesMod() {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -45,8 +43,6 @@ public class FirefliesMod
         ModTileEntities.register(eventBus);
 
         EntityTypes.register(eventBus);
-
-        //ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, FirefliesConfig.SPEC, "fireflies-common.toml" );
 
         // Register the setup method for modloading
         eventBus.addListener(this::setup);
@@ -71,6 +67,7 @@ public class FirefliesMod
             EntitySpawnPlacementRegistry.register(EntityTypes.FIREFLY.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND,
                     Heightmap.Type.MOTION_BLOCKING, AnimalEntity::canAnimalSpawn);
         });
+        FireflySpawnConfig.init();
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {

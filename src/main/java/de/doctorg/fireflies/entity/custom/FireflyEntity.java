@@ -1,5 +1,7 @@
 package de.doctorg.fireflies.entity.custom;
 
+import com.github.alexthe666.citadel.config.biome.BiomeEntryType;
+import com.github.alexthe666.citadel.config.biome.SpawnBiomeData;
 import de.doctorg.fireflies.block.ModBlocks;
 import de.doctorg.fireflies.tileentity.LightEmittingBlockTileEntity;
 import de.doctorg.fireflies.tileentity.ModTileEntities;
@@ -225,4 +227,12 @@ public class FireflyEntity extends ParrotEntity{
             this.parentEntity.setMotion(vector3d.x, f, vector3d.z);
         }
     }
+
+    public static final SpawnBiomeData FIREFLY = new SpawnBiomeData().
+            addBiomeEntry(BiomeEntryType.BIOME_DICT, false, "plains", 0).
+            addBiomeEntry(BiomeEntryType.REGISTRY_NAME, false, "minecraft:shattered_savanna_plateau", 1).
+            addBiomeEntry(BiomeEntryType.REGISTRY_NAME, false, "minecraft:shattered_savanna", 2).
+            addBiomeEntry(BiomeEntryType.BIOME_DICT, false, "forest", 3).
+            addBiomeEntry(BiomeEntryType.BIOME_DICT, false, "jungle", 4).
+            addBiomeEntry(BiomeEntryType.BIOME_DICT, false, "swamp", 5);
 }

@@ -16,6 +16,7 @@ public class lightEmittingBlock extends AirBlock {
         super(properties);
     }
 
+    @Deprecated
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.INVISIBLE;
     }
