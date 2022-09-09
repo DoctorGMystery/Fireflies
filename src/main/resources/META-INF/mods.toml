@@ -5,7 +5,7 @@ license="All rights reserved"
 
 [[mods]] #mandatory
 modId="fireflies" #mandatory
-version="1.1" #mandatory
+version="1.2.0" #mandatory
 displayName="Fireflies" #mandatory
 logoFile="examplemod.png" #optional
 credits="Credits goes to Kaupenjoe for his amazing tutorials!" #optional
@@ -24,5 +24,11 @@ Nothing much to say here... Fireflies ya know.
     modId="minecraft"
     mandatory=true
     versionRange="[1.16.5,1.17)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.fireflies]]
+    modId="citadel"
+    mandatory=true
+    versionRange="[1.6.0,)"
     ordering="NONE"
     side="BOTH"

@@ -2,6 +2,7 @@ package de.doctorg.fireflies.block;
 
 import de.doctorg.fireflies.FirefliesMod;
 import de.doctorg.fireflies.block.custom.lightEmittingBlock;
+import de.doctorg.fireflies.config.FirefliesConfig;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
