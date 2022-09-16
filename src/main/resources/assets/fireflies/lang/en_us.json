@@ -1,4 +1,6 @@
 {
   "item.fireflies.firefly_spawn_egg": "Firefly Spawn Egg",
+  "item.fireflies.firefly_lantern": "Firefly Lantern",
+  "block.fireflies.firefly_lantern": "Firefly Lantern",
   "entity.fireflies.firefly": "Firefly"
 }

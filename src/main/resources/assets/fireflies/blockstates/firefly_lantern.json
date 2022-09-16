@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "hanging=false": {
+      "model": "fireflies:block/firefly_lantern"
+    },
+    "hanging=true": {
+      "model": "fireflies:block/firefly_lantern_hanging"
+    }
+  }
+}

@@ -5,8 +5,11 @@ import de.doctorg.fireflies.entity.EntityTypes;
 import de.doctorg.fireflies.entity.custom.FireflyEntity;
 import de.doctorg.fireflies.item.custom.ModSpawnEggItem;
 import net.minecraft.entity.EntityType;
+import net.minecraft.item.Items;
+import net.minecraft.util.Hand;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -20,5 +23,12 @@ public class ModEventBusEvents {
     @SubscribeEvent
     public static void onRegisterEntities(RegistryEvent.Register<EntityType<?>> event) {
         ModSpawnEggItem.initSpawnEggs();
+    }
+
+    @SubscribeEvent
+    public static void test(PlayerInteractEvent.EntityInteractSpecific event) {
+        if (event.getPlayer().getHeldItem(Hand.MAIN_HAND).isItemEqual(Items.GLASS_BOTTLE.getDefaultInstance())) {
+
+        }
     }
 }
