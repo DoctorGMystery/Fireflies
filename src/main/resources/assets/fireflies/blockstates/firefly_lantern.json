@@ -1,10 +1,16 @@
 {
   "variants": {
-    "hanging=false": {
+    "hanging=false,lit=true": {
       "model": "fireflies:block/firefly_lantern"
     },
-    "hanging=true": {
+    "hanging=false,lit=false": {
+      "model": "fireflies:block/firefly_lantern_unlit"
+    },
+    "hanging=true,lit=true": {
       "model": "fireflies:block/firefly_lantern_hanging"
+    },
+    "hanging=true,lit=false": {
+      "model": "fireflies:block/firefly_lantern_hanging_unlit"
     }
   }
 }

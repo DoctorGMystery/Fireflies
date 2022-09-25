@@ -17,6 +17,10 @@ public class ModTileEntities {
             TILE_ENTITIES.register("light_emitting_tile", () -> TileEntityType.Builder.create(
                     LightEmittingBlockTileEntity::new, ModBlocks.LIGHT_EMITTING_BLOCK.get()).build(null));
 
+    public static RegistryObject<TileEntityType<FireflyLanternTileEntity>> FIREFLY_LANTERN_TILE =
+            TILE_ENTITIES.register("firefly_lantern_tile", () -> TileEntityType.Builder.create(
+                    FireflyLanternTileEntity::new, ModBlocks.FIREFLY_LANTERN.get()).build(null));
+
     public static void register(IEventBus eventBus) {
         TILE_ENTITIES.register(eventBus);
     }

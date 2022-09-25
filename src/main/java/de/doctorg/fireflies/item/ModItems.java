@@ -19,6 +19,9 @@ public class ModItems {
             () -> new ModSpawnEggItem(EntityTypes.FIREFLY, 0xFFC800, 0x332700,
                     new Item.Properties().group(ItemGroup.MISC)));
 
+    public static final RegistryObject<Item> FIREFLY_IN_GLASS = ITEMS.register("firefly_in_glass",
+            () -> new Item(new Item.Properties().group(ItemGroup.MISC)));
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }

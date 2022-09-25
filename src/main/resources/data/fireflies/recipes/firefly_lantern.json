@@ -13,7 +13,7 @@
       "item": "minecraft:chain"
     },
     "T": {
-      "item": "minecraft:torch"
+      "item": "fireflies:firefly_in_glass"
     }
   },
   "result": {

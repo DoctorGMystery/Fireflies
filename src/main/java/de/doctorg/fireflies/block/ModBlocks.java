@@ -1,13 +1,10 @@
 package de.doctorg.fireflies.block;
 
 import de.doctorg.fireflies.FirefliesMod;
+import de.doctorg.fireflies.block.custom.FireflyLanternBlock;
 import de.doctorg.fireflies.block.custom.lightEmittingBlock;
-import de.doctorg.fireflies.config.FirefliesConfig;
 import de.doctorg.fireflies.item.ModItems;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.LanternBlock;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -28,7 +25,7 @@ public class ModBlocks {
             () -> new lightEmittingBlock(AbstractBlock.Properties.create(Material.AIR).setLightLevel((state) -> 5).doesNotBlockMovement().noDrops().setAir()));
 
     public static final RegistryObject<Block> FIREFLY_LANTERN = registerBlock("firefly_lantern",
-            () -> new LanternBlock(AbstractBlock.Properties.create(Material.IRON).setLightLevel((state) -> 5).setRequiresTool().hardnessAndResistance(3.5F).sound(SoundType.LANTERN).notSolid()));
+            () -> new FireflyLanternBlock(AbstractBlock.Properties.create(Material.IRON).setLightLevel((state) -> state.get(FireflyLanternBlock.LIT) ? 15 : 0).setRequiresTool().hardnessAndResistance(3.5F).sound(SoundType.LANTERN).notSolid()));
 
     private static <T extends Block>RegistryObject<T> registerBlock(String name, Supplier<T> block)
     {

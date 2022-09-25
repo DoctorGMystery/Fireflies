@@ -199,7 +199,7 @@ public class FireflyEntity extends ParrotEntity{
         }
     }
 
-    public boolean checkForPlayerIsNearby(BlockPos pos, World world) {
+    public static boolean checkForPlayerIsNearby(BlockPos pos, World world) {
         BlockPos posMax = new BlockPos(pos.getX() + 79, pos.getY() + 200, pos.getZ() + 79);
         BlockPos posMin = new BlockPos(pos.getX() - 79, pos.getY() - 200, pos.getZ() - 79);
         List<PlayerEntity> players = world.getEntitiesWithinAABB(PlayerEntity.class, new AxisAlignedBB(posMax, posMin));
