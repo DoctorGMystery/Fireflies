@@ -25,7 +25,7 @@ public class ModBlocks {
             () -> new lightEmittingBlock(AbstractBlock.Properties.create(Material.AIR).setLightLevel((state) -> 5).doesNotBlockMovement().noDrops().setAir()));
 
     public static final RegistryObject<Block> FIREFLY_LANTERN = registerBlock("firefly_lantern",
-            () -> new FireflyLanternBlock(AbstractBlock.Properties.create(Material.IRON).setLightLevel((state) -> state.get(FireflyLanternBlock.LIT) ? 15 : 0).setRequiresTool().hardnessAndResistance(3.5F).sound(SoundType.LANTERN).notSolid()));
+            () -> new FireflyLanternBlock(AbstractBlock.Properties.create(Material.IRON).setLightLevel((state) -> state.get(FireflyLanternBlock.LIT) ? 5 : 0).setRequiresTool().harvestLevel(0).hardnessAndResistance(3.5F).sound(SoundType.LANTERN).notSolid()));
 
     private static <T extends Block>RegistryObject<T> registerBlock(String name, Supplier<T> block)
     {
