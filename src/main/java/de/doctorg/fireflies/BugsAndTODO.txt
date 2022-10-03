@@ -1,6 +1,0 @@
-bugs:
-
-
--TODO: Change movement and behaviour of Firefly
--TODO: Bugfixes(Always todo)
--TODO: Cleanup Code(Always todo)

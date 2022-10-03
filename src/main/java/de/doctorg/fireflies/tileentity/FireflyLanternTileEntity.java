@@ -44,10 +44,6 @@ public class FireflyLanternTileEntity extends TileEntity implements ITickableTil
         super.read(state, nbt);
     }
 
-    public Boolean getLighted() {
-        return FireflyLanternTileEntity.this.isLighted;
-    }
-
     public void setLighted(Boolean isLighted) {
         FireflyLanternTileEntity.this.isLighted = isLighted;
     }
@@ -82,30 +78,47 @@ public class FireflyLanternTileEntity extends TileEntity implements ITickableTil
             if (!world.isRemote)
             {
                 if (!world.isDaytime()) {
-                    if (getLightedTime() == -1) {
-                        setLightedTime(0);
-                    }
-                    if (getUnlightedTime() == 0 && getLastLightPhase() == 0) {
-                        setLightedTime((int) ((Math.random() * (22 - 11)) + 11));
-                        setLastLightPhase(1);
-                    }
-                    if (getUnlightedTime() == -1) {
-                        setUnlightedTime(0);
-                    }
-                    if (getLightedTime() == 0 && getLastLightPhase() == 1) {
-                        setUnlightedTime((int) ((Math.random() * (25 - 10)) + 10));
-                        setLastLightPhase(0);
-                    }
-                    if (getLightedTime() != 0) {
-                        FireflyLanternBlock.setLITMode(getBlockState(), world, pos, true);
+                    if (getBlockState().get(FireflyLanternBlock.NUMBER_OF_FIREFLIES) == 3) {
                         setLighted(true);
-                        setLightedTime(getLightedTime() - 1);
-                    }
+                        FireflyLanternBlock.setLITMode(getBlockState(), world, pos, true);
+                        setLightedTime(-1);
+                        setUnlightedTime(-1);
+                    } else {
+                        if (getLightedTime() == -1) {
+                            setLightedTime(0);
+                        }
+                        if (getUnlightedTime() == 0 && getLastLightPhase() == 0) {
+                            if (getBlockState().get(FireflyLanternBlock.NUMBER_OF_FIREFLIES) == 1) {
+                                setLightedTime((int) ((Math.random() * (22 - 11)) + 11));
+                                setLastLightPhase(1);
+                            } else if (getBlockState().get(FireflyLanternBlock.NUMBER_OF_FIREFLIES) == 2) {
+                                setLightedTime((int) ((Math.random() * (44 - 22)) + 22));
+                                setLastLightPhase(1);
+                            }
+                        }
+                        if (getUnlightedTime() == -1) {
+                            setUnlightedTime(0);
+                        }
+                        if (getLightedTime() == 0 && getLastLightPhase() == 1) {
+                            if (getBlockState().get(FireflyLanternBlock.NUMBER_OF_FIREFLIES) == 1) {
+                                setUnlightedTime((int) ((Math.random() * (25 - 10)) + 10));
+                                setLastLightPhase(0);
+                            } else if (getBlockState().get(FireflyLanternBlock.NUMBER_OF_FIREFLIES) == 2) {
+                                setUnlightedTime((int) ((Math.random() * (12 - 5)) + 5));
+                                setLastLightPhase(0);
+                            }
+                        }
+                        if (getLightedTime() != 0) {
+                            FireflyLanternBlock.setLITMode(getBlockState(), world, pos, true);
+                            setLighted(true);
+                            setLightedTime(getLightedTime() - 1);
+                        }
 
-                    if (getUnlightedTime() != 0) {
-                        FireflyLanternBlock.setLITMode(getBlockState(), world, pos, false);
-                        setLighted(false);
-                        setUnlightedTime(getUnlightedTime() - 1);
+                        if (getUnlightedTime() != 0) {
+                            FireflyLanternBlock.setLITMode(getBlockState(), world, pos, false);
+                            setLighted(false);
+                            setUnlightedTime(getUnlightedTime() - 1);
+                        }
                     }
                 } else {
                     setLighted(false);

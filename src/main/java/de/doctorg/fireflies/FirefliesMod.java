@@ -7,6 +7,7 @@ import de.doctorg.fireflies.entity.EntityTypes;
 import de.doctorg.fireflies.entity.custom.FireflyEntity;
 import de.doctorg.fireflies.entity.render.FireflyRenderer;
 import de.doctorg.fireflies.item.ModItems;
+import de.doctorg.fireflies.recipe.ModRecipes;
 import de.doctorg.fireflies.tileentity.ModTileEntities;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderType;
@@ -45,6 +46,7 @@ public class FirefliesMod
 
         ModBlocks.register(eventBus);
         ModItems.register(eventBus);
+        ModRecipes.register(eventBus);
         ModTileEntities.register(eventBus);
 
         EntityTypes.register(eventBus);
