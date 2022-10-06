@@ -48,7 +48,10 @@ public class FireflyLanternBlock extends LanternBlock {
             number = Integer.valueOf(compoundNBT.getInt("NumberOfFireflies"));
         }
 
-        return superState.with(NUMBER_OF_FIREFLIES, number);
+        if (superState != null) {
+            return superState.with(NUMBER_OF_FIREFLIES, number);
+        }
+        return null;
     }
 
     public static void setLITMode(BlockState state, World world, BlockPos pos, Boolean mode) {
