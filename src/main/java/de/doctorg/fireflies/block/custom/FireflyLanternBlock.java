@@ -17,6 +17,8 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 
@@ -26,10 +28,17 @@ public class FireflyLanternBlock extends LanternBlock {
     public static final IntegerProperty NUMBER_OF_FIREFLIES = IntegerProperty.create("number_of_fireflies", 1, 5);
 
     protected static final VoxelShape SHAPE = VoxelShapes.or(Block.makeCuboidShape(4.0D, 0.0D, 4.0D, 12.0D, 10.0D, 12.0D), Block.makeCuboidShape(5.0D, 10.0D, 5.0D, 11.0D, 12.0D, 11.0D), Block.makeCuboidShape(6.0D, 12.0D, 6.0D, 10.0D, 13.0D, 10.0D));
+    private final int color;
 
-    public FireflyLanternBlock(Properties properties) {
+    public FireflyLanternBlock(Properties properties, int colorIn) {
         super(properties);
         this.setDefaultState(this.stateContainer.getBaseState().with(LIT, Boolean.valueOf(false)).with(LanternBlock.WATERLOGGED, Boolean.valueOf(false)).with(LanternBlock.HANGING, Boolean.valueOf(false)).with(NUMBER_OF_FIREFLIES, Integer.valueOf(1)));
+        this.color = colorIn;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public int getColor() {
+        return this.color;
     }
 
     @Nullable

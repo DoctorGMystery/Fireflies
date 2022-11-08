@@ -1,16 +1,28 @@
 {
   "variants": {
-    "hanging=false,lit=true": {
-      "model": "fireflies:block/firefly_lantern"
+    "hanging=false,lit=true,number_of_fireflies=1": {
+      "model": "fireflies:block/firefly_lantern_level_1"
     },
-    "hanging=false,lit=false": {
-      "model": "fireflies:block/firefly_lantern_unlit"
+    "hanging=true,lit=true,number_of_fireflies=1": {
+      "model": "fireflies:block/firefly_lantern_hanging_level_1"
     },
-    "hanging=true,lit=true": {
-      "model": "fireflies:block/firefly_lantern_hanging"
+    "hanging=false,lit=true,number_of_fireflies=2": {
+      "model": "fireflies:block/firefly_lantern_level_2"
+    },
+    "hanging=true,lit=true,number_of_fireflies=2": {
+      "model": "fireflies:block/firefly_lantern_hanging_level_2"
+    },
+    "hanging=false,lit=true,number_of_fireflies=3": {
+      "model": "fireflies:block/firefly_lantern_level_3"
+    },
+    "hanging=true,lit=true,number_of_fireflies=3": {
+      "model": "fireflies:block/firefly_lantern_hanging_level_3"
     },
     "hanging=true,lit=false": {
       "model": "fireflies:block/firefly_lantern_hanging_unlit"
+    },
+    "hanging=false,lit=false": {
+      "model": "fireflies:block/firefly_lantern_unlit"
     }
   }
 }

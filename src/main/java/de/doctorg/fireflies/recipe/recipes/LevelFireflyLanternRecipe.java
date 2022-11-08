@@ -2,7 +2,9 @@ package de.doctorg.fireflies.recipe.recipes;
 
 import de.doctorg.fireflies.item.ModItems;
 import de.doctorg.fireflies.recipe.ModRecipes;
+import de.doctorg.fireflies.tags.ModTags;
 import net.minecraft.inventory.CraftingInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
@@ -13,7 +15,9 @@ import net.minecraft.world.World;
 
 public class LevelFireflyLanternRecipe extends SpecialRecipe {
     private static final Ingredient INGREDIENT_FIREFLY_IN_GLASS = Ingredient.fromItems(ModItems.FIREFLY_IN_GLASS.get());
-    private static final Ingredient INGREDIENT_FIREFLY_LANTERN = Ingredient.fromItems(ModItems.FIREFLY_LANTERN.get());
+    private static Ingredient INGREDIENT_FIREFLY_LANTERN = Ingredient.fromItems(ModItems.FIREFLY_LANTERN.get());
+
+    private Item item = null;
 
     public LevelFireflyLanternRecipe(ResourceLocation idIn) {
         super(idIn);
@@ -21,6 +25,7 @@ public class LevelFireflyLanternRecipe extends SpecialRecipe {
 
     @Override
     public boolean matches(CraftingInventory inv, World worldIn) {
+        INGREDIENT_FIREFLY_LANTERN = Ingredient.fromTag(ModTags.Items.FIREFLY_LANTERN);
         boolean isFireflyLanternInGrid = false;
         boolean isFireflyInGlassInGrid = false;
         for (int i = 0; i < inv.getSizeInventory(); i++) {
@@ -34,6 +39,7 @@ public class LevelFireflyLanternRecipe extends SpecialRecipe {
                     return false;
                 }
                 isFireflyLanternInGrid = true;
+                item = stack.getItem();
             } else if (INGREDIENT_FIREFLY_IN_GLASS.test(stack)) {
                 if (isFireflyInGlassInGrid) {
                     return false;
@@ -47,7 +53,7 @@ public class LevelFireflyLanternRecipe extends SpecialRecipe {
 
     @Override
     public ItemStack getCraftingResult(CraftingInventory inv) {
-        ItemStack itemstack = new ItemStack(ModItems.FIREFLY_LANTERN.get(), 1);
+        ItemStack itemstack = new ItemStack(item, 1);
         CompoundNBT compoundnbt = itemstack.getOrCreateTag();
         ItemStack oldLantern = new ItemStack(null);
         for (int i = 0; i < inv.getSizeInventory(); i++) {

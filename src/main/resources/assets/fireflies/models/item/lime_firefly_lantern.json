@@ -1,0 +1,21 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "fireflies:item/firefly_lantern_level_1",
+    "layer1": "fireflies:item/firefly_lantern_light_1"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "fireflies:number_of_fireflies": 2
+      },
+      "model": "fireflies:item/firefly_lantern_level_2_template"
+    },
+    {
+      "predicate": {
+        "fireflies:number_of_fireflies": 3
+      },
+      "model": "fireflies:item/firefly_lantern_level_3_template"
+    }
+  ]
+}

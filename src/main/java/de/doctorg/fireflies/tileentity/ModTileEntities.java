@@ -19,7 +19,7 @@ public class ModTileEntities {
 
     public static RegistryObject<TileEntityType<FireflyLanternTileEntity>> FIREFLY_LANTERN_TILE =
             TILE_ENTITIES.register("firefly_lantern_tile", () -> TileEntityType.Builder.create(
-                    FireflyLanternTileEntity::new, ModBlocks.FIREFLY_LANTERN.get()).build(null));
+                    FireflyLanternTileEntity::new, ModBlocks.FIREFLY_LANTERN.get(), ModBlocks.WHITE_FIREFLY_LANTERN.get(), ModBlocks.ORANGE_FIREFLY_LANTERN.get(), ModBlocks.MAGENTA_FIREFLY_LANTERN.get(), ModBlocks.LIGHT_BLUE_FIREFLY_LANTERN.get(), ModBlocks.YELLOW_FIREFLY_LANTERN.get(), ModBlocks.LIME_FIREFLY_LANTERN.get(), ModBlocks.PINK_FIREFLY_LANTERN.get(), ModBlocks.GRAY_FIREFLY_LANTERN.get(), ModBlocks.LIGHT_GRAY_FIREFLY_LANTERN.get(), ModBlocks.CYAN_FIREFLY_LANTERN.get(), ModBlocks.PURPLE_FIREFLY_LANTERN.get(), ModBlocks.BLUE_FIREFLY_LANTERN.get(), ModBlocks.BROWN_FIREFLY_LANTERN.get(), ModBlocks.GREEN_FIREFLY_LANTERN.get(), ModBlocks.RED_FIREFLY_LANTERN.get(), ModBlocks.BLACK_FIREFLY_LANTERN.get()).build(null));
 
     public static void register(IEventBus eventBus) {
         TILE_ENTITIES.register(eventBus);

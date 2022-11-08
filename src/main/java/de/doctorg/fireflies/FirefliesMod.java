@@ -2,19 +2,17 @@ package de.doctorg.fireflies;
 
 import de.doctorg.fireflies.block.ModBlocks;
 import de.doctorg.fireflies.config.FirefliesConfig;
-import de.doctorg.fireflies.config.custom.FireflySpawnConfig;
 import de.doctorg.fireflies.entity.EntityTypes;
 import de.doctorg.fireflies.entity.custom.FireflyEntity;
 import de.doctorg.fireflies.entity.render.FireflyRenderer;
+import de.doctorg.fireflies.events.ModColorHandler;
+import de.doctorg.fireflies.events.ModEventBusEvents;
 import de.doctorg.fireflies.item.ModItems;
 import de.doctorg.fireflies.recipe.ModRecipes;
 import de.doctorg.fireflies.tileentity.ModTileEntities;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
-import net.minecraft.entity.EntitySpawnPlacementRegistry;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -24,7 +22,6 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
@@ -52,13 +49,15 @@ public class FirefliesMod
         EntityTypes.register(eventBus);
 
         // Register the setup method for modloading
-        eventBus.addListener(this::setup);
+        eventBus.addListener(ModEventBusEvents::setup);
         // Register the enqueueIMC method for modloading
         eventBus.addListener(this::enqueueIMC);
         // Register the processIMC method for modloading
         eventBus.addListener(this::processIMC);
         // Register the doClientStuff method for modloading
         eventBus.addListener(this::doClientStuff);
+        eventBus.addListener(ModColorHandler::BlockColorHandlerEvents);
+        eventBus.addListener(ModColorHandler::ItemColorHandlerEvents);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, FirefliesConfig.SPEC, "fiefly.toml");
 
@@ -68,20 +67,25 @@ public class FirefliesMod
         MinecraftForge.EVENT_BUS.register(FireflyEntity.class);
     }
 
-    private void setup(final FMLCommonSetupEvent event)
-    {
-        // some preinit code
-        LOGGER.info("Fireflies mod recognized on Client-side!");
-        event.enqueueWork(() -> {
-            EntitySpawnPlacementRegistry.register(EntityTypes.FIREFLY.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND,
-                    Heightmap.Type.MOTION_BLOCKING, AnimalEntity::canAnimalSpawn);
-        });
-        FireflySpawnConfig.init();
-    }
-
     private void doClientStuff(final FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             RenderTypeLookup.setRenderLayer(ModBlocks.FIREFLY_LANTERN.get(), RenderType.getCutout());
+            RenderTypeLookup.setRenderLayer(ModBlocks.WHITE_FIREFLY_LANTERN.get(), RenderType.getCutout());
+            RenderTypeLookup.setRenderLayer(ModBlocks.ORANGE_FIREFLY_LANTERN.get(), RenderType.getCutout());
+            RenderTypeLookup.setRenderLayer(ModBlocks.MAGENTA_FIREFLY_LANTERN.get(), RenderType.getCutout());
+            RenderTypeLookup.setRenderLayer(ModBlocks.LIGHT_BLUE_FIREFLY_LANTERN.get(), RenderType.getCutout());
+            RenderTypeLookup.setRenderLayer(ModBlocks.YELLOW_FIREFLY_LANTERN.get(), RenderType.getCutout());
+            RenderTypeLookup.setRenderLayer(ModBlocks.LIME_FIREFLY_LANTERN.get(), RenderType.getCutout());
+            RenderTypeLookup.setRenderLayer(ModBlocks.PINK_FIREFLY_LANTERN.get(), RenderType.getCutout());
+            RenderTypeLookup.setRenderLayer(ModBlocks.GRAY_FIREFLY_LANTERN.get(), RenderType.getCutout());
+            RenderTypeLookup.setRenderLayer(ModBlocks.LIGHT_GRAY_FIREFLY_LANTERN.get(), RenderType.getCutout());
+            RenderTypeLookup.setRenderLayer(ModBlocks.CYAN_FIREFLY_LANTERN.get(), RenderType.getCutout());
+            RenderTypeLookup.setRenderLayer(ModBlocks.PURPLE_FIREFLY_LANTERN.get(), RenderType.getCutout());
+            RenderTypeLookup.setRenderLayer(ModBlocks.BLUE_FIREFLY_LANTERN.get(), RenderType.getCutout());
+            RenderTypeLookup.setRenderLayer(ModBlocks.BROWN_FIREFLY_LANTERN.get(), RenderType.getCutout());
+            RenderTypeLookup.setRenderLayer(ModBlocks.GREEN_FIREFLY_LANTERN.get(), RenderType.getCutout());
+            RenderTypeLookup.setRenderLayer(ModBlocks.RED_FIREFLY_LANTERN.get(), RenderType.getCutout());
+            RenderTypeLookup.setRenderLayer(ModBlocks.BLACK_FIREFLY_LANTERN.get(), RenderType.getCutout());
         });
 
         RenderingRegistry.registerEntityRenderingHandler(EntityTypes.FIREFLY.get(), FireflyRenderer::new);

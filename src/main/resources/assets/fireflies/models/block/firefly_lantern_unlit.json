@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"0": "fireflies:block/firefly_lantern_unlit",
-		"particle": "fireflies:block/firefly_lantern"
+		"particle": "fireflies:block/firefly_lantern_unlit"
 	},
 	"elements": [
 		{

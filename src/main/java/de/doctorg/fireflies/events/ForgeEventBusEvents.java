@@ -16,7 +16,6 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(modid = FirefliesMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgeEventBusEvents {
 
-
     @SubscribeEvent
     public static void EntityInteract(PlayerInteractEvent.EntityInteract event) {
         PlayerEntity player = event.getPlayer();

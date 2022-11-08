@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "fireflies:item/firefly_lantern_level_3",
+    "layer1": "fireflies:item/firefly_lantern_light_3"
+  }
+}

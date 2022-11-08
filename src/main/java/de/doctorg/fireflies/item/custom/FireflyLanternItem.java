@@ -9,13 +9,23 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
 public class FireflyLanternItem extends BlockItem {
-    public FireflyLanternItem(Block blockIn, Properties properties) {
+    private final int color;
+
+    public FireflyLanternItem(Block blockIn, Properties properties, int colorIn) {
         super(blockIn, properties);
+        this.color = colorIn;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public int getColor() {
+        return this.color;
     }
 
     @Override
