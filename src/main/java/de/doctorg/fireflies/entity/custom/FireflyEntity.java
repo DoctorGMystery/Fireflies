@@ -40,6 +40,7 @@ public class FireflyEntity extends ParrotEntity{
     private static final DataParameter<Integer> LIGHTED_TIME = EntityDataManager.createKey(FireflyEntity.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> UNLIGHTED_TIME = EntityDataManager.createKey(FireflyEntity.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> LAST_LIGHT_PHASE = EntityDataManager.createKey(FireflyEntity.class, DataSerializers.VARINT);
+    public float ALPHA = 0.0F;
 
     public FireflyEntity(EntityType<? extends ParrotEntity> type, World worldIn) {
         super(type, worldIn);
@@ -187,6 +188,14 @@ public class FireflyEntity extends ParrotEntity{
 
     public void setUnlightedTime(Integer unlightedTime) {
         this.dataManager.set(UNLIGHTED_TIME, unlightedTime);
+    }
+
+    public float getALPHA() {
+        return this.ALPHA;
+    }
+
+    public void setALPHA(float ALPHA) {
+        this.ALPHA = ALPHA;
     }
 
     public void updateTileEntity(BlockPos pos, World world) {
