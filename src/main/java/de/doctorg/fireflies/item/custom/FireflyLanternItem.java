@@ -1,14 +1,15 @@
 package de.doctorg.fireflies.item.custom;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -18,7 +19,7 @@ import java.util.List;
 public class FireflyLanternItem extends BlockItem {
     private final int color;
 
-    public FireflyLanternItem(Block blockIn, Properties properties, int colorIn) {
+    public FireflyLanternItem(Block blockIn, Item.Properties properties, int colorIn) {
         super(blockIn, properties);
         this.color = colorIn;
     }
@@ -29,13 +30,13 @@ public class FireflyLanternItem extends BlockItem {
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        super.addInformation(stack, worldIn, tooltip, flagIn);
-        CompoundNBT compoundNBT = stack.getTag();
+    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltip, TooltipFlag pFlag) {
+        super.appendHoverText(pStack, pLevel, pTooltip, pFlag);
+        CompoundTag compoundNBT = pStack.getTag();
         if (compoundNBT != null) {
-            tooltip.add((new TranslationTextComponent("item.fireflies.firefly_lantern.number_of_fireflies")).appendString(" ").appendString(String.valueOf(compoundNBT.getInt("NumberOfFireflies"))).mergeStyle(TextFormatting.GRAY));
+            pTooltip.add((new TranslatableComponent("item.fireflies.firefly_lantern.number_of_fireflies")).append(" ").append(String.valueOf(compoundNBT.getInt("NumberOfFireflies"))).withStyle(ChatFormatting.GRAY));
         } else {
-            tooltip.add((new TranslationTextComponent("item.fireflies.firefly_lantern.number_of_fireflies")).appendString(" ").appendString(String.valueOf(1)).mergeStyle(TextFormatting.GRAY));
+            pTooltip.add((new TranslatableComponent("item.fireflies.firefly_lantern.number_of_fireflies")).append(" ").append(String.valueOf(1)).withStyle(ChatFormatting.GRAY));
         }
     }
 }

@@ -1,18 +1,20 @@
 buildscript {
     repositories {
         maven { url = 'https://files.minecraftforge.net/maven' }
-        jcenter()
+        maven { url = 'https://maven.parchmentmc.org' }
         mavenCentral()
         maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
-
     }
 
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
         classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
+        classpath 'org.parchmentmc:librarian:1.+'
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'org.parchmentmc.librarian.forgegradle'
+
 repositories{
     maven {
         name = "CurseForge"
@@ -29,20 +31,22 @@ repositories{
     maven {
         name = "CurseMaven"
         url = "https://www.cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
     }
 }
-apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '1.16.5-1.3.5'
+version = '1.17.1-1.4.1'
 group = 'de.doctorg.fireflies' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'fireflies'
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+java.toolchain.languageVersion = JavaLanguageVersion.of(16)
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
-    mappings channel: 'snapshot', version: '20210309-1.16.5'
+    mappings channel: 'parchment', version: '2021.12.12-1.17.1'
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
@@ -70,18 +74,19 @@ minecraft {
 
         server {
             workingDirectory project.file('run')
-            properties 'mixin.env.remapRefMap': 'true'
-            property 'mixin.env.refMapRemappingFile', "${project.projectDir}/build/createSrgToMcp/output.srg"
-            args '--mod', 'examplemod', '--all', '--output', file('src/generated/resources/'), '--existing', sourceSets.main.resources.srcDirs[0]
+            //properties 'mixin.env.remapRefMap': 'true'
+            //property 'mixin.env.refMapRemappingFile', "${project.projectDir}/build/createSrgToMcp/output.srg"
+            //args '--mod', 'fireflies', '--all', '--output', file('src/generated/resources/'), '--existing', sourceSets.main.resources.srcDirs[0]
 
             // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            //SCAN,REGISTRYDUMP
+            property 'forge.logging.markers', 'REGISTRIES'
 
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                examplemod {
+                fireflies {
                     source sourceSets.main
                 }
             }
@@ -118,10 +123,10 @@ mixin {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.5-36.0.46'
-    compileOnly fg.deobf("mezz.jei:jei-1.16.5:7.7.1.152:api")
-    runtimeOnly fg.deobf("mezz.jei:jei-1.16.5:7.7.1.152")
-    compile "curse.maven:citadel2-331936:3441030" //citadel 1.7.3 deobf fileid: 3390029
+    minecraft 'net.minecraftforge:forge:1.17.1-37.1.1'
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    compileOnly "curse.maven:citadel3-331936:3537055" // change to 3478179
+    runtimeOnly "curse.maven:citadel3-331936:3537055"
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
@@ -130,7 +135,7 @@ jar {
         attributes([
                 "Specification-Title": "fireflies",
                 "Specification-Vendor": "DoctorGMystery",
-                "Specification-Version": "1.0", // We are version 1 of ourselves
+                "Specification-Version": "1.4.1", // We are version 1 of ourselves
                 "Implementation-Title": project.name,
                 "Implementation-Version": "${version}",
                 "Implementation-Vendor" :"DoctorGMystery",

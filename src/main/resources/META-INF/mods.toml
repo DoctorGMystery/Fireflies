@@ -1,11 +1,11 @@
 modLoader="javafml" #mandatory
-loaderVersion="[36,)" #mandatory This is typically bumped every Minecraft version by Forge.  The license for you mod. This is mandatory metadata and allows for easier comprehension of your redistributive properties.
+loaderVersion="[37,)" #mandatory This is typically bumped every Minecraft version by Forge.  The license for you mod. This is mandatory metadata and allows for easier comprehension of your redistributive properties.
 license="All rights reserved"
 #issueTrackerURL="https://change.me.to.your.issue.tracker.example.invalid/" #optional
 
 [[mods]] #mandatory
 modId="fireflies" #mandatory
-version="1.3.5" #mandatory
+version="1.4.1" #mandatory
 displayName="Fireflies" #mandatory
 logoFile="examplemod.png" #optional
 credits="Credits goes to Kaupenjoe for his amazing tutorials!" #optional
@@ -17,18 +17,18 @@ Nothing much to say here... Fireflies ya know.
 [[dependencies.fireflies]] #optional
     modId="forge" #mandatory
     mandatory=true #mandatory
-    versionRange="[36,)" #mandatory
+    versionRange="[37,)" #mandatory
     ordering="NONE"
     side="BOTH"
 [[dependencies.fireflies]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16.5,1.17)"
+    versionRange="[1.17.1, 1.18)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.fireflies]]
     modId="citadel"
     mandatory=true
-    versionRange="[1.6.0,)"
+    versionRange="[1.9.5,)"
     ordering="NONE"
     side="BOTH"

@@ -3,19 +3,19 @@ package de.doctorg.fireflies.recipe.recipes;
 import de.doctorg.fireflies.item.ModItems;
 import de.doctorg.fireflies.recipe.ModRecipes;
 import de.doctorg.fireflies.tags.ModTags;
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.item.crafting.SpecialRecipe;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.Level;
 
-public class LevelFireflyLanternRecipe extends SpecialRecipe {
-    private static final Ingredient INGREDIENT_FIREFLY_IN_GLASS = Ingredient.fromItems(ModItems.FIREFLY_IN_GLASS.get());
-    private static Ingredient INGREDIENT_FIREFLY_LANTERN = Ingredient.fromItems(ModItems.FIREFLY_LANTERN.get());
+public class LevelFireflyLanternRecipe extends CustomRecipe {
+    private static final Ingredient INGREDIENT_FIREFLY_IN_GLASS = Ingredient.of(ModItems.FIREFLY_IN_GLASS.get());
+    private static Ingredient INGREDIENT_FIREFLY_LANTERN = Ingredient.of(ModItems.FIREFLY_LANTERN.get());
 
     private Item item = null;
 
@@ -24,14 +24,14 @@ public class LevelFireflyLanternRecipe extends SpecialRecipe {
     }
 
     @Override
-    public boolean matches(CraftingInventory inv, World worldIn) {
-        INGREDIENT_FIREFLY_LANTERN = Ingredient.fromTag(ModTags.Items.FIREFLY_LANTERN);
+    public boolean matches(CraftingContainer pContainer, Level pLevel) {
+        INGREDIENT_FIREFLY_LANTERN = Ingredient.of(ModTags.Items.FIREFLY_LANTERN);
         boolean isFireflyLanternInGrid = false;
         boolean isFireflyInGlassInGrid = false;
-        for (int i = 0; i < inv.getSizeInventory(); i++) {
-            final ItemStack stack = inv.getStackInSlot(i);
+        for (int i = 0; i < pContainer.getContainerSize(); i++) {
+            final ItemStack stack = pContainer.getItem(i);
             if (INGREDIENT_FIREFLY_LANTERN.test(stack)) {
-                CompoundNBT compoundnbt = stack.getTag();
+                CompoundTag compoundnbt = stack.getTag();
                 if (compoundnbt != null && compoundnbt.getInt("NumberOfFireflies") > 2) {
                     return false;
                 }
@@ -52,18 +52,18 @@ public class LevelFireflyLanternRecipe extends SpecialRecipe {
     }
 
     @Override
-    public ItemStack getCraftingResult(CraftingInventory inv) {
+    public ItemStack assemble(CraftingContainer pContainer) {
         ItemStack itemstack = new ItemStack(item, 1);
-        CompoundNBT compoundnbt = itemstack.getOrCreateTag();
+        CompoundTag compoundnbt = itemstack.getOrCreateTag();
         ItemStack oldLantern = new ItemStack(null);
-        for (int i = 0; i < inv.getSizeInventory(); i++) {
-            final ItemStack stack = inv.getStackInSlot(i);
+        for (int i = 0; i < pContainer.getContainerSize(); i++) {
+            final ItemStack stack = pContainer.getItem(i);
             if (INGREDIENT_FIREFLY_LANTERN.test(stack)) {
                 oldLantern = stack;
                 break;
             }
         }
-        CompoundNBT oldLanternNbt = oldLantern.getTag();
+        CompoundTag oldLanternNbt = oldLantern.getTag();
         if (oldLanternNbt != null && oldLanternNbt.getInt("NumberOfFireflies") < 3) {
             compoundnbt.putInt("NumberOfFireflies", oldLanternNbt.getInt("NumberOfFireflies") + 1);
         } else {
@@ -73,17 +73,17 @@ public class LevelFireflyLanternRecipe extends SpecialRecipe {
     }
 
     @Override
-    public ItemStack getRecipeOutput() {
+    public ItemStack getResultItem() {
         return new ItemStack(ModItems.FIREFLY_LANTERN.get());
     }
 
     @Override
-    public boolean canFit(int width, int height) {
-        return width >= 3 && height >= 3;
+    public boolean canCraftInDimensions(int pWidth, int pHeight) {
+        return pWidth >= 3 && pHeight >= 3;
     }
 
     @Override
-    public IRecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<?> getSerializer() {
         return ModRecipes.LEVEL_FIREFLY_LANTERN_RECIPE.get();
     }
 }

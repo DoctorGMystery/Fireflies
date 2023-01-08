@@ -1,14 +1,17 @@
 package de.doctorg.fireflies.events;
 
 import de.doctorg.fireflies.FirefliesMod;
-import de.doctorg.fireflies.entity.EntityTypes;
+import de.doctorg.fireflies.entity.ModEntityTypes;
 import de.doctorg.fireflies.item.ModItems;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import de.doctorg.fireflies.sound.ModSoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
-import net.minecraft.util.DrinkHelper;
-import net.minecraft.util.Hand;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUtils;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -18,12 +21,13 @@ public class ForgeEventBusEvents {
 
     @SubscribeEvent
     public static void EntityInteract(PlayerInteractEvent.EntityInteract event) {
-        PlayerEntity player = event.getPlayer();
-        if (event.getHand() == Hand.MAIN_HAND && player.getHeldItem(Hand.MAIN_HAND).getItem().equals(Items.GLASS_BOTTLE) && event.getTarget().getType().equals(EntityTypes.FIREFLY.get())) {
+        Player player = event.getPlayer();
+        if (event.getHand() == InteractionHand.MAIN_HAND && player.getMainHandItem().getItem().equals(Items.GLASS_BOTTLE) && event.getTarget().getType().equals(ModEntityTypes.FIREFLY.get())) {
             event.setCanceled(true);
-            player.addStat(Stats.ITEM_USED.get(Items.GLASS_BOTTLE));
-            DrinkHelper.fill(player.getHeldItem(Hand.MAIN_HAND), player, new ItemStack(ModItems.FIREFLY_IN_GLASS.get()));
-            event.getTarget().remove();
+            player.awardStat(Stats.ITEM_USED.get(Items.GLASS_BOTTLE));
+            event.getWorld().playSound(event.getPlayer(), event.getPlayer().getX(), event.getPlayer().getY(), event.getPlayer().getZ(), ModSoundEvents.CORK_PLOP.get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
+            ItemUtils.createFilledResult(player.getMainHandItem(), player, new ItemStack(ModItems.FIREFLY_IN_GLASS.get()));
+            event.getTarget().remove(Entity.RemovalReason.UNLOADED_TO_CHUNK);
         }
     }
 }

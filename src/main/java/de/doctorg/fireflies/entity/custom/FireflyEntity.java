@@ -3,191 +3,212 @@ package de.doctorg.fireflies.entity.custom;
 import com.github.alexthe666.citadel.config.biome.BiomeEntryType;
 import com.github.alexthe666.citadel.config.biome.SpawnBiomeData;
 import de.doctorg.fireflies.block.ModBlocks;
-import de.doctorg.fireflies.tileentity.LightEmittingBlockTileEntity;
-import de.doctorg.fireflies.tileentity.ModTileEntities;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.controller.FlyingMovementController;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.LookRandomlyGoal;
-import net.minecraft.entity.ai.goal.PanicGoal;
-import net.minecraft.entity.passive.ParrotEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import de.doctorg.fireflies.blockentity.LightEmittingBlockBlockEntity;
+import de.doctorg.fireflies.blockentity.ModBlockEntities;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.FlyingMoveControl;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.PanicGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.animal.Parrot;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.EntityLeaveWorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.util.List;
 
-public class FireflyEntity extends ParrotEntity{
+public class FireflyEntity extends Parrot {
 
-    public LightEmittingBlockTileEntity tileEntity;
-    private static final DataParameter<Boolean> IS_LIGHTED = EntityDataManager.createKey(FireflyEntity.class, DataSerializers.BOOLEAN);
-    private static final DataParameter<Integer> LIGHTED_TIME = EntityDataManager.createKey(FireflyEntity.class, DataSerializers.VARINT);
-    private static final DataParameter<Integer> UNLIGHTED_TIME = EntityDataManager.createKey(FireflyEntity.class, DataSerializers.VARINT);
-    private static final DataParameter<Integer> LAST_LIGHT_PHASE = EntityDataManager.createKey(FireflyEntity.class, DataSerializers.VARINT);
+    public LightEmittingBlockBlockEntity blockEntity;
+    private static final EntityDataAccessor<Boolean> IS_LIGHTED = SynchedEntityData.defineId(FireflyEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> LIGHTED_TIME = SynchedEntityData.defineId(FireflyEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> UNLIGHTED_TIME = SynchedEntityData.defineId(FireflyEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> LAST_LIGHT_PHASE = SynchedEntityData.defineId(FireflyEntity.class, EntityDataSerializers.INT);
     public float ALPHA = 0.0F;
+    public int Cooldown = 0;
 
-    public FireflyEntity(EntityType<? extends ParrotEntity> type, World worldIn) {
-        super(type, worldIn);
-        this.moveController = new FlyingMovementController(this, 10, false);
+    public FireflyEntity(EntityType<? extends Parrot> type, Level levelIn) {
+        super(type, levelIn);
+        this.moveControl = new FlyingMoveControl(this, 10, false);
     }
 
-    public static AttributeModifierMap.MutableAttribute setCustomAttributes() {
-        return MobEntity.func_233666_p_()
-                .createMutableAttribute(Attributes.MAX_HEALTH, 1.5D)
-                .createMutableAttribute(Attributes.FLYING_SPEED, 0.2D)
-                .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.05D);
+    public static AttributeSupplier.Builder setCustomAttributes() {
+        return Mob.createMobAttributes()
+                .add(Attributes.MAX_HEALTH, 1.5D)
+                .add(Attributes.FLYING_SPEED, 0.2D)
+                .add(Attributes.MOVEMENT_SPEED, 0.05D);
     }
 
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(1,new AvoidFluid(this));
-        this.goalSelector.addGoal(2,new PanicGoal(this,1.25D));
-        this.goalSelector.addGoal(3,new LookAtGoal(this, PlayerEntity.class, 6.0F));
-        this.goalSelector.addGoal(7,new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(0,new AvoidFluid(this));
+        this.goalSelector.addGoal(1,new PanicGoal(this,1.25D));
+        this.goalSelector.addGoal(2,new LookAtPlayerGoal(this, Player.class, 6.0F));
+        this.goalSelector.addGoal(3,new RandomLookAroundGoal(this));
     }
 
     @Override
-    protected int getExperiencePoints(PlayerEntity player)
-    {
-        return 1 + this.world.rand.nextInt(1);
+    protected int getExperienceReward(Player pPlayer) {
+        return 1 + this.level.random.nextInt(1);
     }
 
     @Override
     public SoundEvent getAmbientSound() {
-        this.playSound(SoundEvents.ENTITY_BEE_LOOP, 0.2F, 1.0F);
+        this.playSound(SoundEvents.BEE_LOOP, 0.2F, 1.0F);
         return null;
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        this.playSound(SoundEvents.ENTITY_BEE_HURT, 1.0F, 1.7F);
+        this.playSound(SoundEvents.BEE_HURT, 1.0F, 1.7F);
         return null;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        this.playSound(SoundEvents.ENTITY_BEE_DEATH, 0.7F, 2.0F);
+        this.playSound(SoundEvents.BEE_DEATH, 0.7F, 2.0F);
         return null;
     }
 
-
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(IS_LIGHTED, true);
-        this.dataManager.register(LIGHTED_TIME, 0);
-        this.dataManager.register(UNLIGHTED_TIME, 0);
-        this.dataManager.register(LAST_LIGHT_PHASE, 0);
+    @Override
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(IS_LIGHTED, true);
+        this.entityData.define(LIGHTED_TIME, 0);
+        this.entityData.define(UNLIGHTED_TIME, 0);
+        this.entityData.define(LAST_LIGHT_PHASE, 0);
     }
 
     @Override
-    public void livingTick() {
-        super.livingTick();
+    public void readAdditionalSaveData(CompoundTag pCompound) {
+        super.readAdditionalSaveData(pCompound);
+        this.entityData.set(IS_LIGHTED, pCompound.getBoolean("IsLighted"));
+        this.entityData.set(LIGHTED_TIME, pCompound.getInt("LightedTime"));
+        this.entityData.set(UNLIGHTED_TIME, pCompound.getInt("UnlightedTime"));
+        this.entityData.set(LAST_LIGHT_PHASE, pCompound.getInt("LastLightPhase"));
+    }
 
-        if (checkForPlayerIsNearby(this.getPosition(), this.world)) {
-            if (!world.isRemote)
-            {
-                if (!world.isDaytime()) {
-                    if (getLightedTime() == -1) {
-                        setLightedTime(0);
-                    }
-                    if (getUnlightedTime() == 0 && this.dataManager.get(LAST_LIGHT_PHASE) == 0) {
-                        setLightedTime((int) ((Math.random() * (22 - 11)) + 11));
-                        this.dataManager.set(LAST_LIGHT_PHASE, 1);
-                    }
-                    if (getUnlightedTime() == -1) {
-                        setUnlightedTime(0);
-                    }
-                    if (getLightedTime() == 0 && this.dataManager.get(LAST_LIGHT_PHASE) == 1) {
-                        setUnlightedTime((int) ((Math.random() * (25 - 10)) + 10));
-                        this.dataManager.set(LAST_LIGHT_PHASE, 0);
-                    }
-                    if (getLightedTime() != 0) {
-                        if (this.world.getBlockState(this.getPosition()) == Blocks.AIR.getDefaultState() || this.world.getBlockState(this.getPosition()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState()) {
-                            this.world.setBlockState(this.getPosition(), ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState(), 3);
-                            updateTileEntity(this.getPosition(), this.world);
+    @Override
+    public void addAdditionalSaveData(CompoundTag pCompound) {
+        super.addAdditionalSaveData(pCompound);
+        pCompound.putBoolean("IsLighted", this.entityData.get(IS_LIGHTED));
+        pCompound.putInt("LightedTime", this.entityData.get(LIGHTED_TIME));
+        pCompound.putInt("UnlightedTime", this.entityData.get(UNLIGHTED_TIME));
+        pCompound.putInt("LastLightPhase", this.entityData.get(LAST_LIGHT_PHASE));
+    }
 
-                            if (this.tileEntity != null) {
-                                this.tileEntity.setId(this.getUniqueID().toString());
-                            }
+    @Override
+    public void tick() {
+        super.tick();
+        if (this.Cooldown == 0) {
+            if (checkForPlayerIsNearby(this.blockPosition(), this.level)) {
+                if (!level.isClientSide)
+                {
+                    if (!level.isDay()) {
+                        if (getLightedTime() == -1) {
+                            setLightedTime(0);
                         }
-                        setLightedTime(getLightedTime() - 1);
-                    }
+                        if (getUnlightedTime() == 0 && this.entityData.get(LAST_LIGHT_PHASE) == 0) {
+                            setLightedTime((int) ((Math.random() * (22 - 11)) + 11));
+                            this.entityData.set(LAST_LIGHT_PHASE, 1);
+                        }
+                        if (getUnlightedTime() == -1) {
+                            setUnlightedTime(0);
+                        }
+                        if (getLightedTime() == 0 && this.entityData.get(LAST_LIGHT_PHASE) == 1) {
+                            setUnlightedTime((int) ((Math.random() * (25 - 10)) + 10));
+                            this.entityData.set(LAST_LIGHT_PHASE, 0);
+                        }
+                        if (getLightedTime() != 0) {
+                            if (this.level.getBlockState(this.blockPosition()) == Blocks.AIR.defaultBlockState() || this.level.getBlockState(this.blockPosition()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().defaultBlockState()) {
+                                this.level.setBlock(this.blockPosition(), ModBlocks.LIGHT_EMITTING_BLOCK.get().defaultBlockState(), 3);
+                                updateTileEntity(this.blockPosition(), this.level);
 
-                    if (getUnlightedTime() != 0) {
-                        updateTileEntity(this.getPosition(), this.world);
-                        if (world.getBlockState(this.getPosition()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState())
-                        {
-                            if (this.tileEntity != null) {
-                                if (this.tileEntity.getId() != null) {
-                                    if (this.tileEntity.getId().equals(this.getUniqueID().toString())) {
-                                        world.setBlockState(this.getPosition(), Blocks.AIR.getDefaultState());
+                                if (this.blockEntity != null) {
+                                    this.blockEntity.setId(this.getUUID().toString());
+                                }
+                            }
+                            setLightedTime(getLightedTime() - 1);
+                        }
+
+                        if (getUnlightedTime() != 0) {
+                            updateTileEntity(this.blockPosition(), this.level);
+                            {
+                                if (this.blockEntity != null) {
+                                    if (this.blockEntity.getId() != null) {
+                                        if (this.blockEntity.getId().equals(this.getUUID().toString())) {
+                                            level.setBlock(this.blockPosition(), Blocks.AIR.defaultBlockState(), 3);
+                                        }
                                     }
                                 }
                             }
+                            setUnlightedTime(getUnlightedTime() - 1);
                         }
-
-                        setUnlightedTime(getUnlightedTime() - 1);
+                    } else {
+                        setLightedTime(-1);
+                        setUnlightedTime(-1);
                     }
-                } else {
-                    setLightedTime(-1);
-                    setUnlightedTime(-1);
-                }
 
-                this.setLighted(world.getBlockState(this.getPosition()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState() ||
-                        (world.getBlockState(this.getPosition()) == Blocks.AIR.getDefaultState() && !world.isDaytime() && this.getLightedTime() != 0));
-                if (world.isDaytime()) {
-                    this.setLighted(false);
+                    this.setLighted(level.getBlockState(this.blockPosition()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().defaultBlockState() ||
+                            (level.getBlockState(this.blockPosition()) == Blocks.AIR.defaultBlockState() && !level.isDay() && this.getLightedTime() != 0));
+                    if (level.isDay()) {
+                        this.setLighted(false);
+                    }
                 }
             }
+        } else if (this.Cooldown > 0) {
+            this.Cooldown -= 1;
+            this.setLighted(false);
         }
     }
 
     @SubscribeEvent
     public static void removeLightOnLeavingWorld(EntityLeaveWorldEvent event) {
-        if (event.getEntity().world.getBlockState(event.getEntity().getPosition()).getBlock() == ModBlocks.LIGHT_EMITTING_BLOCK.get()) {
-            event.getWorld().setBlockState(event.getEntity().getPosition(), Blocks.AIR.getDefaultState());
+        if (event.getEntity().level.getBlockState(event.getEntity().blockPosition()).getBlock() == ModBlocks.LIGHT_EMITTING_BLOCK.get()) {
+            event.getWorld().setBlock(event.getEntity().blockPosition(), Blocks.AIR.defaultBlockState(), 3);
         }
     }
 
     public Boolean getLighted() {
-        return this.dataManager.get(IS_LIGHTED);
+        return this.entityData.get(IS_LIGHTED);
     }
 
     public void setLighted(Boolean lighted) {
-        this.dataManager.set(IS_LIGHTED, lighted);
+        this.entityData.set(IS_LIGHTED, lighted);
     }
 
     public int getLightedTime() {
-        return this.dataManager.get(LIGHTED_TIME);
+        return this.entityData.get(LIGHTED_TIME);
     }
 
     public void setLightedTime(Integer lightedTime) {
-        this.dataManager.set(LIGHTED_TIME, lightedTime);
+        this.entityData.set(LIGHTED_TIME, lightedTime);
     }
 
     public int getUnlightedTime() {
-        return this.dataManager.get(UNLIGHTED_TIME);
+        return this.entityData.get(UNLIGHTED_TIME);
     }
 
     public void setUnlightedTime(Integer unlightedTime) {
-        this.dataManager.set(UNLIGHTED_TIME, unlightedTime);
+        this.entityData.set(UNLIGHTED_TIME, unlightedTime);
     }
 
     public float getALPHA() {
@@ -198,20 +219,20 @@ public class FireflyEntity extends ParrotEntity{
         this.ALPHA = ALPHA;
     }
 
-    public void updateTileEntity(BlockPos pos, World world) {
-        if (world.getTileEntity(pos) != null) {
-            if (world.getTileEntity(pos).getType() == ModTileEntities.LIGHT_EMITTING_TILE.get()) {
-                tileEntity = (LightEmittingBlockTileEntity) world.getTileEntity(pos);
+    public void updateTileEntity(BlockPos pos, Level level) {
+        if (level.getBlockEntity(pos) != null) {
+            if (level.getBlockEntity(pos).getType() == ModBlockEntities.LIGHT_EMITTING_TILE.get()) {
+                blockEntity = (LightEmittingBlockBlockEntity) level.getBlockEntity(pos);
             } else {
-                tileEntity = null;
+                blockEntity = null;
             }
         }
     }
 
-    public static boolean checkForPlayerIsNearby(BlockPos pos, World world) {
+    public static boolean checkForPlayerIsNearby(BlockPos pos, Level level) {
         BlockPos posMax = new BlockPos(pos.getX() + 79, pos.getY() + 200, pos.getZ() + 79);
         BlockPos posMin = new BlockPos(pos.getX() - 79, pos.getY() - 200, pos.getZ() - 79);
-        List<PlayerEntity> players = world.getEntitiesWithinAABB(PlayerEntity.class, new AxisAlignedBB(posMax, posMin));
+        List<Player> players = level.getEntitiesOfClass(Player.class, new AABB(posMax, posMin));
         return !players.isEmpty();
     }
 
@@ -222,18 +243,18 @@ public class FireflyEntity extends ParrotEntity{
             this.parentEntity = parentEntity;
         }
 
-        public boolean shouldExecute() {
-            Block blockAtPosition = this.parentEntity.world.getBlockState(this.parentEntity.getPosition()).getBlock();
-            Block BlockUnderPosition = this.parentEntity.world.getBlockState(this.parentEntity.getPosition().down()).getBlock();
-            return BlockUnderPosition == Blocks.WATER ||
-                    blockAtPosition == Blocks.WATER ||
-                    BlockUnderPosition == Blocks.LAVA ||
+        @Override
+        public boolean canUse() {
+            Block blockAtPosition = this.parentEntity.level.getBlockState(this.parentEntity.blockPosition()).getBlock();
+            return blockAtPosition == Blocks.WATER ||
                     blockAtPosition == Blocks.LAVA;
         }
+
         public void tick() {
-            float f = this.parentEntity.getJumpUpwardsMotion();
-            Vector3d vector3d = this.parentEntity.getMotion();
-            this.parentEntity.setMotion(vector3d.x, f, vector3d.z);
+            this.parentEntity.Cooldown = 30;
+            this.parentEntity.moveControl.tick();
+            Vec3 vector3d = this.parentEntity.getDeltaMovement().add(0, 0.1, 0);
+            this.parentEntity.setDeltaMovement(vector3d.x, vector3d.y + 0.05, vector3d.z);
         }
     }
 
