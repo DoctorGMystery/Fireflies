@@ -41,6 +41,7 @@ public class FireflyEntity extends ParrotEntity{
     private static final DataParameter<Integer> UNLIGHTED_TIME = EntityDataManager.createKey(FireflyEntity.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> LAST_LIGHT_PHASE = EntityDataManager.createKey(FireflyEntity.class, DataSerializers.VARINT);
     public float ALPHA = 0.0F;
+    public int Cooldown = 0;
 
     public FireflyEntity(EntityType<? extends ParrotEntity> type, World worldIn) {
         super(type, worldIn);
@@ -100,62 +101,68 @@ public class FireflyEntity extends ParrotEntity{
     public void livingTick() {
         super.livingTick();
 
-        if (checkForPlayerIsNearby(this.getPosition(), this.world)) {
-            if (!world.isRemote)
-            {
-                if (!world.isDaytime()) {
-                    if (getLightedTime() == -1) {
-                        setLightedTime(0);
-                    }
-                    if (getUnlightedTime() == 0 && this.dataManager.get(LAST_LIGHT_PHASE) == 0) {
-                        setLightedTime((int) ((Math.random() * (22 - 11)) + 11));
-                        this.dataManager.set(LAST_LIGHT_PHASE, 1);
-                    }
-                    if (getUnlightedTime() == -1) {
-                        setUnlightedTime(0);
-                    }
-                    if (getLightedTime() == 0 && this.dataManager.get(LAST_LIGHT_PHASE) == 1) {
-                        setUnlightedTime((int) ((Math.random() * (25 - 10)) + 10));
-                        this.dataManager.set(LAST_LIGHT_PHASE, 0);
-                    }
-                    if (getLightedTime() != 0) {
-                        if (this.world.getBlockState(this.getPosition()) == Blocks.AIR.getDefaultState() || this.world.getBlockState(this.getPosition()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState()) {
-                            this.world.setBlockState(this.getPosition(), ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState(), 3);
-                            updateTileEntity(this.getPosition(), this.world);
-
-                            if (this.tileEntity != null) {
-                                this.tileEntity.setId(this.getUniqueID().toString());
-                            }
+        if (this.Cooldown == 0) {
+            if (checkForPlayerIsNearby(this.getPosition(), this.world)) {
+                if (!world.isRemote)
+                {
+                    if (!world.isDaytime()) {
+                        if (getLightedTime() == -1) {
+                            setLightedTime(0);
                         }
-                        setLightedTime(getLightedTime() - 1);
-                    }
+                        if (getUnlightedTime() == 0 && this.dataManager.get(LAST_LIGHT_PHASE) == 0) {
+                            setLightedTime((int) ((Math.random() * (22 - 11)) + 11));
+                            this.dataManager.set(LAST_LIGHT_PHASE, 1);
+                        }
+                        if (getUnlightedTime() == -1) {
+                            setUnlightedTime(0);
+                        }
+                        if (getLightedTime() == 0 && this.dataManager.get(LAST_LIGHT_PHASE) == 1) {
+                            setUnlightedTime((int) ((Math.random() * (25 - 10)) + 10));
+                            this.dataManager.set(LAST_LIGHT_PHASE, 0);
+                        }
+                        if (getLightedTime() != 0) {
+                            if (this.world.getBlockState(this.getPosition()) == Blocks.AIR.getDefaultState() ||
+                                    this.world.getBlockState(this.getPosition()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState()) {
+                                this.world.setBlockState(this.getPosition(), ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState(), 3);
+                                updateTileEntity(this.getPosition(), this.world);
 
-                    if (getUnlightedTime() != 0) {
-                        updateTileEntity(this.getPosition(), this.world);
-                        if (world.getBlockState(this.getPosition()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState())
-                        {
-                            if (this.tileEntity != null) {
-                                if (this.tileEntity.getId() != null) {
-                                    if (this.tileEntity.getId().equals(this.getUniqueID().toString())) {
-                                        world.setBlockState(this.getPosition(), Blocks.AIR.getDefaultState());
+                                if (this.tileEntity != null) {
+                                    this.tileEntity.setId(this.getUniqueID().toString());
+                                }
+                            }
+                            setLightedTime(getLightedTime() - 1);
+                        }
+
+                        if (getUnlightedTime() != 0) {
+                            updateTileEntity(this.getPosition(), this.world);
+                            if (world.getBlockState(this.getPosition()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState())
+                            {
+                                if (this.tileEntity != null) {
+                                    if (this.tileEntity.getId() != null) {
+                                        if (this.tileEntity.getId().equals(this.getUniqueID().toString())) {
+                                            world.setBlockState(this.getPosition(), Blocks.AIR.getDefaultState());
+                                        }
                                     }
                                 }
                             }
+
+                            setUnlightedTime(getUnlightedTime() - 1);
                         }
-
-                        setUnlightedTime(getUnlightedTime() - 1);
+                    } else {
+                        setLightedTime(-1);
+                        setUnlightedTime(-1);
                     }
-                } else {
-                    setLightedTime(-1);
-                    setUnlightedTime(-1);
-                }
 
-                this.setLighted(world.getBlockState(this.getPosition()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState() ||
-                        (world.getBlockState(this.getPosition()) == Blocks.AIR.getDefaultState() && !world.isDaytime() && this.getLightedTime() != 0));
-                if (world.isDaytime()) {
-                    this.setLighted(false);
+                    this.setLighted(world.getBlockState(this.getPosition()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().getDefaultState() ||
+                            (world.getBlockState(this.getPosition()) == Blocks.AIR.getDefaultState() && !world.isDaytime() && this.getLightedTime() != 0));
+                    if (world.isDaytime()) {
+                        this.setLighted(false);
+                    }
                 }
             }
+        } else if (this.Cooldown > 0) {
+            this.Cooldown -= 1;
+            this.setLighted(false);
         }
     }
 
@@ -224,16 +231,14 @@ public class FireflyEntity extends ParrotEntity{
 
         public boolean shouldExecute() {
             Block blockAtPosition = this.parentEntity.world.getBlockState(this.parentEntity.getPosition()).getBlock();
-            Block BlockUnderPosition = this.parentEntity.world.getBlockState(this.parentEntity.getPosition().down()).getBlock();
-            return BlockUnderPosition == Blocks.WATER ||
-                    blockAtPosition == Blocks.WATER ||
-                    BlockUnderPosition == Blocks.LAVA ||
+            return blockAtPosition == Blocks.WATER ||
                     blockAtPosition == Blocks.LAVA;
         }
         public void tick() {
-            float f = this.parentEntity.getJumpUpwardsMotion();
-            Vector3d vector3d = this.parentEntity.getMotion();
-            this.parentEntity.setMotion(vector3d.x, f, vector3d.z);
+            this.parentEntity.Cooldown = 30;
+            this.parentEntity.moveController.tick();
+            Vector3d vector3d = this.parentEntity.getMotion().add(0, 0.1, 0);
+            this.parentEntity.setMotion(vector3d.x, vector3d.y + 0.05, vector3d.z);
         }
     }
 

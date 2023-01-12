@@ -16,11 +16,11 @@
       "item": "fireflies:firefly_in_glass"
     },
     "P": {
-      "item": "minecraft:glass_pane"
+      "item": "minecraft:pink_stained_glass_pane"
     }
   },
   "result": {
-    "item": "fireflies:firefly_lantern",
+    "item": "fireflies:pink_firefly_lantern",
     "count": 1
   }
 }

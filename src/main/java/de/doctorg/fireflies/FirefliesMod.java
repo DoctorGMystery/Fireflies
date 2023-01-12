@@ -5,16 +5,14 @@ import de.doctorg.fireflies.config.FirefliesConfig;
 import de.doctorg.fireflies.entity.EntityTypes;
 import de.doctorg.fireflies.entity.custom.FireflyEntity;
 import de.doctorg.fireflies.entity.render.FireflyRenderer;
-import de.doctorg.fireflies.events.ModColorHandler;
 import de.doctorg.fireflies.events.ModEventBusEvents;
 import de.doctorg.fireflies.item.ModItems;
 import de.doctorg.fireflies.recipe.ModRecipes;
+import de.doctorg.fireflies.sound.ModSoundEvents;
 import de.doctorg.fireflies.tileentity.ModTileEntities;
-import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -43,6 +41,8 @@ public class FirefliesMod
 
         ModBlocks.register(eventBus);
         ModItems.register(eventBus);
+
+        ModSoundEvents.register(eventBus);
         ModRecipes.register(eventBus);
         ModTileEntities.register(eventBus);
 
@@ -56,8 +56,6 @@ public class FirefliesMod
         eventBus.addListener(this::processIMC);
         // Register the doClientStuff method for modloading
         eventBus.addListener(this::doClientStuff);
-        eventBus.addListener(ModColorHandler::BlockColorHandlerEvents);
-        eventBus.addListener(ModColorHandler::ItemColorHandlerEvents);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, FirefliesConfig.SPEC, "fiefly.toml");
 
@@ -109,11 +107,4 @@ public class FirefliesMod
 
     // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
     // Event bus for receiving Registry Events)
-    @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
-    public static class RegistryEvents {
-        @SubscribeEvent
-        public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {
-            // register a new block here
-        }
-    }
 }

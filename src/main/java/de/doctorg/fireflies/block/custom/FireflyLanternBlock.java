@@ -25,7 +25,7 @@ import javax.annotation.Nullable;
 public class FireflyLanternBlock extends LanternBlock {
 
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
-    public static final IntegerProperty NUMBER_OF_FIREFLIES = IntegerProperty.create("number_of_fireflies", 1, 5);
+    public static final IntegerProperty NUMBER_OF_FIREFLIES = IntegerProperty.create("number_of_fireflies", 1, 3);
 
     protected static final VoxelShape SHAPE = VoxelShapes.or(Block.makeCuboidShape(4.0D, 0.0D, 4.0D, 12.0D, 10.0D, 12.0D), Block.makeCuboidShape(5.0D, 10.0D, 5.0D, 11.0D, 12.0D, 11.0D), Block.makeCuboidShape(6.0D, 12.0D, 6.0D, 10.0D, 13.0D, 10.0D));
     private final int color;
