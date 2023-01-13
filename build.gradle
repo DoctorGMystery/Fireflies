@@ -1,7 +1,6 @@
 buildscript {
     repositories {
         maven { url = 'https://files.minecraftforge.net/maven' }
-        maven { url = 'https://maven.parchmentmc.org' }
         mavenCentral()
         maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
     }
@@ -9,11 +8,9 @@ buildscript {
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
         classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
-        classpath 'org.parchmentmc:librarian:1.+'
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'org.parchmentmc.librarian.forgegradle'
 
 repositories{
     maven {
@@ -38,15 +35,15 @@ repositories{
 }
 apply plugin: 'maven-publish'
 
-version = '1.17.1-1.4.2'
+version = '1.18-1.5.1'
 group = 'de.doctorg.fireflies' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'fireflies'
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(16)
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
-    mappings channel: 'parchment', version: '2021.12.12-1.17.1'
+    mappings channel: 'official', version: '1.18'
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
@@ -123,12 +120,12 @@ mixin {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.17.1-37.1.1'
+    minecraft 'net.minecraftforge:forge:1.18-38.0.17'
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-    compileOnly fg.deobf("mezz.jei:jei-1.17.1:8.3.1.62:api")
-    runtimeOnly fg.deobf("mezz.jei:jei-1.17.1:8.3.1.62")
-    compileOnly "curse.maven:citadel3-331936:3537055" // change to 3478179
-    runtimeOnly "curse.maven:citadel3-331936:3537055"
+    compileOnly fg.deobf("mezz.jei:jei-1.18:9.0.0.40:api")
+    runtimeOnly fg.deobf("mezz.jei:jei-1.18:9.0.0.40")
+    compileOnly "curse.maven:citadel3-331936:3642722"
+    runtimeOnly "curse.maven:citadel3-331936:3642722"
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
@@ -137,7 +134,7 @@ jar {
         attributes([
                 "Specification-Title": "fireflies",
                 "Specification-Vendor": "DoctorGMystery",
-                "Specification-Version": "1.4.2", // We are version 1 of ourselves
+                "Specification-Version": "1.5.1", // We are version 1 of ourselves
                 "Implementation-Title": project.name,
                 "Implementation-Version": "${version}",
                 "Implementation-Vendor" :"DoctorGMystery",

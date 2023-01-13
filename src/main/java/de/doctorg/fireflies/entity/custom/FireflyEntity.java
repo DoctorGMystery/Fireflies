@@ -155,7 +155,7 @@ public class FireflyEntity extends Parrot {
                                 if (this.blockEntity != null) {
                                     if (this.blockEntity.getId() != null) {
                                         if (this.blockEntity.getId().equals(this.getUUID().toString())) {
-                                            level.setBlock(this.blockPosition(), Blocks.AIR.defaultBlockState(), 3);
+                                            level.setBlock(this.blockEntity.getBlockPos(), Blocks.AIR.defaultBlockState(), 3);
                                         }
                                     }
                                 }

@@ -3,9 +3,8 @@ package de.doctorg.fireflies.sound;
 import de.doctorg.fireflies.FirefliesMod;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraftforge.common.util.ForgeSoundType;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fmllegacy.RegistryObject;
+import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
