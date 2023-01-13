@@ -4,7 +4,6 @@ import de.doctorg.fireflies.block.ModBlocks;
 import de.doctorg.fireflies.blockentity.ModBlockEntities;
 import de.doctorg.fireflies.config.FirefliesConfig;
 import de.doctorg.fireflies.entity.ModEntityTypes;
-import de.doctorg.fireflies.entity.custom.FireflyEntity;
 import de.doctorg.fireflies.events.ModEventBusEvents;
 import de.doctorg.fireflies.item.ModItems;
 import de.doctorg.fireflies.recipe.ModRecipes;
@@ -12,6 +11,7 @@ import de.doctorg.fireflies.sound.ModSoundEvents;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -21,7 +21,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.event.server.ServerStartingEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -59,8 +58,6 @@ public class FirefliesMod
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
-
-        MinecraftForge.EVENT_BUS.register(FireflyEntity.class);
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {

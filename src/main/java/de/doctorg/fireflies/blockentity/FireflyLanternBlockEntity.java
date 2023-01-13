@@ -23,12 +23,12 @@ public class FireflyLanternBlockEntity extends BlockEntity{
     public Boolean isLighted = true;
 
     @Override
-    public CompoundTag save(CompoundTag compound) {
-        compound.putInt("lastLightPhase", FireflyLanternBlockEntity.this.lastLightPhase);
-        compound.putInt("lightedTime", FireflyLanternBlockEntity.this.lightedTime);
-        compound.putInt("unlightedTime", FireflyLanternBlockEntity.this.unlightedTime);
-        compound.putBoolean("isLighted", FireflyLanternBlockEntity.this.isLighted);
-        return super.save(compound);
+    protected void saveAdditional(CompoundTag pTag) {
+        pTag.putInt("lastLightPhase", FireflyLanternBlockEntity.this.lastLightPhase);
+        pTag.putInt("lightedTime", FireflyLanternBlockEntity.this.lightedTime);
+        pTag.putInt("unlightedTime", FireflyLanternBlockEntity.this.unlightedTime);
+        pTag.putBoolean("isLighted", FireflyLanternBlockEntity.this.isLighted);
+        super.saveAdditional(pTag);
     }
 
     @Override

@@ -6,7 +6,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
@@ -21,9 +20,9 @@ public class LightEmittingBlockBlockEntity extends BlockEntity{
     public String id = "0";
 
     @Override
-    public CompoundTag save(CompoundTag nbt) {
+    public void saveAdditional(CompoundTag nbt) {
         nbt.putString("id", LightEmittingBlockBlockEntity.this.id);
-        return super.save(nbt);
+        super.saveAdditional(nbt);
     }
 
     @Override

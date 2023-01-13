@@ -29,8 +29,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.event.entity.EntityLeaveWorldEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.util.List;
 
@@ -177,13 +175,6 @@ public class FireflyEntity extends Parrot {
         } else if (this.Cooldown > 0) {
             this.Cooldown -= 1;
             this.setLighted(false);
-        }
-    }
-
-    @SubscribeEvent
-    public static void removeLightOnLeavingWorld(EntityLeaveWorldEvent event) {
-        if (event.getEntity().level.getBlockState(event.getEntity().blockPosition()).getBlock() == ModBlocks.LIGHT_EMITTING_BLOCK.get()) {
-            event.getWorld().setBlock(event.getEntity().blockPosition(), Blocks.AIR.defaultBlockState(), 3);
         }
     }
 
