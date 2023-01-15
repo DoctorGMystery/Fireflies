@@ -3,7 +3,7 @@ package de.doctorg.fireflies.integrations.jei;
 import de.doctorg.fireflies.FirefliesMod;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
-import mezz.jei.api.constants.VanillaRecipeCategoryUid;
+import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.resources.ResourceLocation;
 
@@ -16,6 +16,6 @@ public class FirefliesJei implements IModPlugin {
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        registration.addRecipes(LevelFireflyLanternRecipeMaker.createLevelFireflyLanternRecipes(), VanillaRecipeCategoryUid.CRAFTING);
+        registration.addRecipes(RecipeTypes.CRAFTING, LevelFireflyLanternRecipeMaker.createLevelFireflyLanternRecipes());
     }
 }

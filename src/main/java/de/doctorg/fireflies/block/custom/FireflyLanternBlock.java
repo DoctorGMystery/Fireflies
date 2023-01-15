@@ -66,7 +66,11 @@ public class FireflyLanternBlock extends LanternBlock implements EntityBlock {
         CompoundTag compoundTag = context.getItemInHand().getTag();
         int number = Integer.valueOf(1);
         if (compoundTag != null) {
-            number = Integer.valueOf(compoundTag.getInt("NumberOfFireflies"));
+            if (compoundTag.getInt("NumberOfFireflies") <= 0 || compoundTag.getInt("NumberOfFireflies") >= 4) {
+                number = Integer.valueOf(1);
+            } else {
+                number = Integer.valueOf(compoundTag.getInt("NumberOfFireflies"));
+            }
         }
 
         if (superState != null) {

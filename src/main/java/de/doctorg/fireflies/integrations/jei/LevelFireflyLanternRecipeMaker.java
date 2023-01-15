@@ -4,31 +4,34 @@ import de.doctorg.fireflies.item.ModItems;
 import de.doctorg.fireflies.tags.ModTags;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.ShapedRecipe;
-import net.minecraftforge.common.crafting.IShapedRecipe;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LevelFireflyLanternRecipeMaker {
-    public static List<IShapedRecipe<?>> createLevelFireflyLanternRecipes() {
-        List<IShapedRecipe<?>> recipes = new ArrayList();
+    public static List<CraftingRecipe> createLevelFireflyLanternRecipes() {
+        List<CraftingRecipe> recipes = new ArrayList();
         String group = "fireflies.lantern.level";
+        List<Item> fireflyLanterns = ForgeRegistries.ITEMS.tags().getTag(ModTags.Items.FIREFLY_LANTERN).stream().toList();
 
-        for(int i = 0; i < ModTags.Items.FIREFLY_LANTERN.getValues().size() * 2; ++i) {
+        for(int i = 0; i < fireflyLanterns.size() * 2; ++i) {
             ItemStack fireflyLantern;
             ItemStack output;
             int levelTo;
             Ingredient lanternIngredient;
             if (i < 17) {
-                output = new ItemStack(ModTags.Items.FIREFLY_LANTERN.getValues().get(i));
-                fireflyLantern = new ItemStack(ModTags.Items.FIREFLY_LANTERN.getValues().get(i));
+                output = new ItemStack(fireflyLanterns.get(i));
+                fireflyLantern = new ItemStack(fireflyLanterns.get(i));
                 levelTo = 2;
             } else {
-                output = new ItemStack(ModTags.Items.FIREFLY_LANTERN.getValues().get(i - 17));
-                fireflyLantern = new ItemStack(ModTags.Items.FIREFLY_LANTERN.getValues().get(i - 17));
+                output = new ItemStack(fireflyLanterns.get(i - 17));
+                fireflyLantern = new ItemStack(fireflyLanterns.get(i - 17));
                 levelTo = 3;
             }
             fireflyLantern.getOrCreateTag().putInt("NumberOfFireflies", levelTo - 1);
