@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -55,7 +56,7 @@ public class LevelFireflyLanternRecipe extends CustomRecipe {
     public ItemStack assemble(CraftingContainer pContainer) {
         ItemStack itemstack = new ItemStack(item, 1);
         CompoundTag compoundnbt = itemstack.getOrCreateTag();
-        ItemStack oldLantern = new ItemStack(null, 0);
+        ItemStack oldLantern = new ItemStack(Items.AIR, 1);
         for (int i = 0; i < pContainer.getContainerSize(); i++) {
             final ItemStack stack = pContainer.getItem(i);
             if (INGREDIENT_FIREFLY_LANTERN.test(stack)) {

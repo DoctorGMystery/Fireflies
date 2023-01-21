@@ -1,7 +1,6 @@
 buildscript {
     repositories {
         maven { url = 'https://files.minecraftforge.net/maven' }
-        maven { url = 'https://maven.parchmentmc.org' }
         mavenCentral()
         maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
     }
@@ -9,11 +8,9 @@ buildscript {
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
         classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
-        classpath 'org.parchmentmc:librarian:1.+'
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'org.parchmentmc.librarian.forgegradle'
 
 repositories{
     maven {
@@ -26,7 +23,7 @@ repositories{
     }
     maven {
         name = "ModMaven"
-        url = "https://modmaven.k-4u.nl"
+        url = "https://modmaven.dev"
     }
     maven {
         name = "CurseMaven"
@@ -38,7 +35,7 @@ repositories{
 }
 apply plugin: 'maven-publish'
 
-version = '1.18.2-1.7.1'
+version = '1.19-1.8.1'
 group = 'de.doctorg.fireflies' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'fireflies'
 
@@ -46,7 +43,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
-    mappings channel: 'parchment', version: '2022.11.06-1.18.2'
+    mappings channel: 'official', version: '1.19'
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
@@ -123,12 +120,13 @@ mixin {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.18.2-40.2.0'
+    minecraft 'net.minecraftforge:forge:1.19-41.1.0'
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-    compileOnly fg.deobf("mezz.jei:jei-1.18.2:9.7.2.277:api")
-    runtimeOnly fg.deobf("mezz.jei:jei-1.18.2:9.7.2.277")
-    compileOnly "curse.maven:citadel3-331936:3783098"
-    runtimeOnly "curse.maven:citadel3-331936:3783098"
+    compileOnly(fg.deobf("mezz.jei:jei-1.19-common-api:11.1.1.239"))
+    compileOnly(fg.deobf("mezz.jei:jei-1.19-forge-api:11.1.1.239"))
+    runtimeOnly(fg.deobf("mezz.jei:jei-1.19-forge:11.1.1.239"))
+    compileOnly "curse.maven:citadel-331936:4030238"
+    runtimeOnly "curse.maven:citadel-331936:4030238"
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
@@ -137,7 +135,7 @@ jar {
         attributes([
                 "Specification-Title": "fireflies",
                 "Specification-Vendor": "DoctorGMystery",
-                "Specification-Version": "1.7.1", // We are version 1 of ourselves
+                "Specification-Version": "1.8.1", // We are version 1 of ourselves
                 "Implementation-Title": project.name,
                 "Implementation-Version": "${version}",
                 "Implementation-Vendor" :"DoctorGMystery",

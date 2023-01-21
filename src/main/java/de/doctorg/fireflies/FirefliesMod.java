@@ -1,5 +1,6 @@
 package de.doctorg.fireflies;
 
+import com.mojang.serialization.Codec;
 import de.doctorg.fireflies.block.ModBlocks;
 import de.doctorg.fireflies.blockentity.ModBlockEntities;
 import de.doctorg.fireflies.config.FirefliesConfig;
@@ -8,19 +9,18 @@ import de.doctorg.fireflies.events.ModEventBusEvents;
 import de.doctorg.fireflies.item.ModItems;
 import de.doctorg.fireflies.recipe.ModRecipes;
 import de.doctorg.fireflies.sound.ModSoundEvents;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
+import de.doctorg.fireflies.world.ModMobSpawning;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -45,14 +45,13 @@ public class FirefliesMod
 
         ModEntityTypes.register(eventBus);
 
+        final DeferredRegister<Codec<? extends BiomeModifier>> biomeModifiers =
+                DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, FirefliesMod.MOD_ID);
+        biomeModifiers.register(eventBus);
+        biomeModifiers.register("firefly_spawns", ModMobSpawning::makeCodec);
+
         // Register the setup method for modloading
         eventBus.addListener(ModEventBusEvents::setup);
-        // Register the enqueueIMC method for modloading
-        eventBus.addListener(this::enqueueIMC);
-        // Register the processIMC method for modloading
-        eventBus.addListener(this::processIMC);
-        // Register the doClientStuff method for modloading
-        eventBus.addListener(this::doClientStuff);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, FirefliesConfig.SPEC, "fiefly.toml");
 
@@ -60,37 +59,6 @@ public class FirefliesMod
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    private void doClientStuff(final FMLClientSetupEvent event) {
-        event.enqueueWork(() -> {
-            ItemBlockRenderTypes.setRenderLayer(ModBlocks.FIREFLY_LANTERN.get(), RenderType.cutout());
-            ItemBlockRenderTypes.setRenderLayer(ModBlocks.WHITE_FIREFLY_LANTERN.get(), RenderType.cutout());
-            ItemBlockRenderTypes.setRenderLayer(ModBlocks.ORANGE_FIREFLY_LANTERN.get(), RenderType.cutout());
-            ItemBlockRenderTypes.setRenderLayer(ModBlocks.MAGENTA_FIREFLY_LANTERN.get(), RenderType.cutout());
-            ItemBlockRenderTypes.setRenderLayer(ModBlocks.LIGHT_BLUE_FIREFLY_LANTERN.get(), RenderType.cutout());
-            ItemBlockRenderTypes.setRenderLayer(ModBlocks.YELLOW_FIREFLY_LANTERN.get(), RenderType.cutout());
-            ItemBlockRenderTypes.setRenderLayer(ModBlocks.LIME_FIREFLY_LANTERN.get(), RenderType.cutout());
-            ItemBlockRenderTypes.setRenderLayer(ModBlocks.PINK_FIREFLY_LANTERN.get(), RenderType.cutout());
-            ItemBlockRenderTypes.setRenderLayer(ModBlocks.GRAY_FIREFLY_LANTERN.get(), RenderType.cutout());
-            ItemBlockRenderTypes.setRenderLayer(ModBlocks.LIGHT_GRAY_FIREFLY_LANTERN.get(), RenderType.cutout());
-            ItemBlockRenderTypes.setRenderLayer(ModBlocks.CYAN_FIREFLY_LANTERN.get(), RenderType.cutout());
-            ItemBlockRenderTypes.setRenderLayer(ModBlocks.PURPLE_FIREFLY_LANTERN.get(), RenderType.cutout());
-            ItemBlockRenderTypes.setRenderLayer(ModBlocks.BLUE_FIREFLY_LANTERN.get(), RenderType.cutout());
-            ItemBlockRenderTypes.setRenderLayer(ModBlocks.BROWN_FIREFLY_LANTERN.get(), RenderType.cutout());
-            ItemBlockRenderTypes.setRenderLayer(ModBlocks.GREEN_FIREFLY_LANTERN.get(), RenderType.cutout());
-            ItemBlockRenderTypes.setRenderLayer(ModBlocks.RED_FIREFLY_LANTERN.get(), RenderType.cutout());
-            ItemBlockRenderTypes.setRenderLayer(ModBlocks.BLACK_FIREFLY_LANTERN.get(), RenderType.cutout());
-        });
-    }
-
-    private void enqueueIMC(final InterModEnqueueEvent event)
-    {
-        // some example code to dispatch IMC to another mod
-    }
-
-    private void processIMC(final InterModProcessEvent event)
-    {
-        // some example code to receive and process InterModComms from other mods
-    }
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {

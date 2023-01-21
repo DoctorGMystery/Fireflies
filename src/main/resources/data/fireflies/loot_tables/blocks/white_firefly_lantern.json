@@ -1,0 +1,65 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "name": "fireflies:white_firefly_lantern",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "fireflies:white_firefly_lantern",
+                  "properties": {
+                    "number_of_fireflies": "1"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "minecraft:item",
+              "name": "fireflies:white_firefly_lantern",
+              "functions": [
+                {
+                  "function": "minecraft:set_nbt",
+                  "tag": "{NumberOfFireflies:2}"
+                }
+              ],
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "fireflies:white_firefly_lantern",
+                  "properties": {
+                    "number_of_fireflies": "2"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "minecraft:item",
+              "name": "fireflies:white_firefly_lantern",
+              "functions": [
+                {
+                  "function": "minecraft:set_nbt",
+                  "tag": "{NumberOfFireflies:3}"
+                }
+              ],
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "fireflies:white_firefly_lantern",
+                  "properties": {
+                    "number_of_fireflies": "3"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

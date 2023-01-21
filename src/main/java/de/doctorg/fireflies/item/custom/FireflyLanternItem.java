@@ -3,7 +3,6 @@ package de.doctorg.fireflies.item.custom;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -34,9 +33,9 @@ public class FireflyLanternItem extends BlockItem {
         super.appendHoverText(pStack, pLevel, pTooltip, pFlag);
         CompoundTag compoundNBT = pStack.getTag();
         if (compoundNBT != null) {
-            pTooltip.add((new TranslatableComponent("item.fireflies.firefly_lantern.number_of_fireflies")).append(" ").append(String.valueOf(compoundNBT.getInt("NumberOfFireflies"))).withStyle(ChatFormatting.GRAY));
+            pTooltip.add((Component.translatable("item.fireflies.firefly_lantern.number_of_fireflies")).append(" ").append(String.valueOf(compoundNBT.getInt("NumberOfFireflies"))).withStyle(ChatFormatting.GRAY));
         } else {
-            pTooltip.add((new TranslatableComponent("item.fireflies.firefly_lantern.number_of_fireflies")).append(" ").append(String.valueOf(1)).withStyle(ChatFormatting.GRAY));
+            pTooltip.add((Component.translatable("item.fireflies.firefly_lantern.number_of_fireflies")).append(" ").append(String.valueOf(1)).withStyle(ChatFormatting.GRAY));
         }
     }
 }

@@ -4,6 +4,7 @@ import com.github.alexthe666.citadel.config.biome.SpawnBiomeConfig;
 import com.github.alexthe666.citadel.config.biome.SpawnBiomeData;
 import de.doctorg.fireflies.FirefliesMod;
 import de.doctorg.fireflies.entity.custom.FireflyEntity;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
 import org.apache.commons.lang3.tuple.Pair;
@@ -36,10 +37,10 @@ public class FireflySpawnConfig {
         init = true;
     }
 
-    public static boolean test(Pair<String, SpawnBiomeData> entry, Biome biome){
+    public static boolean test(Pair<String, SpawnBiomeData> entry, Holder<Biome> biome, ResourceLocation name){
         if(!init){
             return false;
         }
-        return biomeConfigValues.get(entry.getKey()).matches(biome);
+        return biomeConfigValues.get(entry.getKey()).matches(biome, name);
     }
 }

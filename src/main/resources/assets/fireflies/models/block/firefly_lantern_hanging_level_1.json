@@ -4,6 +4,7 @@
 		"0": "fireflies:block/firefly_lantern_level_1",
 		"particle": "fireflies:block/firefly_lantern_level_1"
 	},
+	"render_type": "minecraft:cutout",
 	"elements": [
 		{
 			"from": [4, 0, 4],

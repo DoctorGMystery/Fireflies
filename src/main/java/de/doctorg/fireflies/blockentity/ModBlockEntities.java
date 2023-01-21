@@ -4,14 +4,14 @@ import de.doctorg.fireflies.FirefliesMod;
 import de.doctorg.fireflies.block.ModBlocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 public class ModBlockEntities {
 
     public static DeferredRegister<BlockEntityType<?>> TILE_ENTITIES =
-            DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, FirefliesMod.MOD_ID);
+            DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, FirefliesMod.MOD_ID);
 
     public static RegistryObject<BlockEntityType<LightEmittingBlockBlockEntity>> LIGHT_EMITTING_TILE =
             TILE_ENTITIES.register("light_emitting_tile", () -> BlockEntityType.Builder.of(

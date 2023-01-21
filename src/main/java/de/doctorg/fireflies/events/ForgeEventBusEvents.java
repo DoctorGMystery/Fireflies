@@ -21,11 +21,11 @@ public class ForgeEventBusEvents {
 
     @SubscribeEvent
     public static void EntityInteract(PlayerInteractEvent.EntityInteract event) {
-        Player player = event.getPlayer();
+        Player player = event.getEntity();
         if (event.getHand() == InteractionHand.MAIN_HAND && player.getMainHandItem().getItem().equals(Items.GLASS_BOTTLE) && event.getTarget().getType().equals(ModEntityTypes.FIREFLY.get())) {
             event.setCanceled(true);
             player.awardStat(Stats.ITEM_USED.get(Items.GLASS_BOTTLE));
-            event.getWorld().playSound(event.getPlayer(), event.getPlayer().getX(), event.getPlayer().getY(), event.getPlayer().getZ(), ModSoundEvents.CORK_PLOP.get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
+            event.getLevel().playSound(player, player.getX(), player.getY(), player.getZ(), ModSoundEvents.CORK_PLOP.get(), SoundSource.NEUTRAL, 1.0F, 1.0F);
             ItemUtils.createFilledResult(player.getMainHandItem(), player, new ItemStack(ModItems.FIREFLY_IN_GLASS.get()));
             event.getTarget().remove(Entity.RemovalReason.UNLOADED_TO_CHUNK);
         }

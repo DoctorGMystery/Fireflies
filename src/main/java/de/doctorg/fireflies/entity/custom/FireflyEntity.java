@@ -27,6 +27,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -64,7 +65,7 @@ public class FireflyEntity extends Parrot {
     }
 
     @Override
-    protected int getExperienceReward(Player pPlayer) {
+    public int getExperienceReward() {
         return 1 + this.level.random.nextInt(1);
     }
 
@@ -237,8 +238,7 @@ public class FireflyEntity extends Parrot {
         @Override
         public boolean canUse() {
             Block blockAtPosition = this.parentEntity.level.getBlockState(this.parentEntity.blockPosition()).getBlock();
-            return blockAtPosition == Blocks.WATER ||
-                    blockAtPosition == Blocks.LAVA;
+            return blockAtPosition instanceof LiquidBlock;
         }
 
         public void tick() {
@@ -250,10 +250,10 @@ public class FireflyEntity extends Parrot {
     }
 
     public static final SpawnBiomeData FIREFLY = new SpawnBiomeData().
-            addBiomeEntry(BiomeEntryType.BIOME_DICT, false, "plains", 0).
-            addBiomeEntry(BiomeEntryType.REGISTRY_NAME, false, "minecraft:shattered_savanna_plateau", 1).
-            addBiomeEntry(BiomeEntryType.REGISTRY_NAME, false, "minecraft:shattered_savanna", 2).
-            addBiomeEntry(BiomeEntryType.BIOME_DICT, false, "forest", 3).
-            addBiomeEntry(BiomeEntryType.BIOME_DICT, false, "jungle", 4).
-            addBiomeEntry(BiomeEntryType.BIOME_DICT, false, "swamp", 5);
+            addBiomeEntry(BiomeEntryType.BIOME_TAG, false, "forge:is_plains", 0).
+            addBiomeEntry(BiomeEntryType.BIOME_TAG, true, "forge:is_cold", 0).
+            addBiomeEntry(BiomeEntryType.BIOME_TAG, false, "minecraft:is_savanna", 1).
+            addBiomeEntry(BiomeEntryType.BIOME_TAG, false, "minecraft:is_forest", 2).
+            addBiomeEntry(BiomeEntryType.BIOME_TAG, false, "minecraft:is_jungle", 3).
+            addBiomeEntry(BiomeEntryType.BIOME_TAG, false, "forge:is_swamp", 4);
 }
