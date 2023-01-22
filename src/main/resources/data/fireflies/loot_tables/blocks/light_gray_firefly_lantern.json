@@ -8,11 +8,11 @@
           "children": [
             {
               "type": "minecraft:item",
-              "name": "fireflies:firefly_lantern",
+              "name": "fireflies:light_gray_firefly_lantern",
               "conditions": [
                 {
                   "condition": "minecraft:block_state_property",
-                  "block": "fireflies:firefly_lantern",
+                  "block": "fireflies:light_gray_firefly_lantern",
                   "properties": {
                     "number_of_fireflies": "1"
                   }
@@ -21,7 +21,7 @@
             },
             {
               "type": "minecraft:item",
-              "name": "fireflies:firefly_lantern",
+              "name": "fireflies:light_gray_firefly_lantern",
               "functions": [
                 {
                   "function": "minecraft:set_nbt",
@@ -31,7 +31,7 @@
               "conditions": [
                 {
                   "condition": "minecraft:block_state_property",
-                  "block": "fireflies:firefly_lantern",
+                  "block": "fireflies:light_gray_firefly_lantern",
                   "properties": {
                     "number_of_fireflies": "2"
                   }
@@ -40,7 +40,7 @@
             },
             {
               "type": "minecraft:item",
-              "name": "fireflies:firefly_lantern",
+              "name": "fireflies:light_gray_firefly_lantern",
               "functions": [
                 {
                   "function": "minecraft:set_nbt",
@@ -50,7 +50,7 @@
               "conditions": [
                 {
                   "condition": "minecraft:block_state_property",
-                  "block": "fireflies:firefly_lantern",
+                  "block": "fireflies:light_gray_firefly_lantern",
                   "properties": {
                     "number_of_fireflies": "3"
                   }
