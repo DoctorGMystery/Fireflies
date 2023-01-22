@@ -47,10 +47,6 @@ public class FirefliesMod
 
         // Register the setup method for modloading
         eventBus.addListener(ModEventBusEvents::setup);
-        // Register the enqueueIMC method for modloading
-        eventBus.addListener(this::enqueueIMC);
-        // Register the processIMC method for modloading
-        eventBus.addListener(this::processIMC);
         // Register the doClientStuff method for modloading
         eventBus.addListener(this::doClientStuff);
 
@@ -82,15 +78,6 @@ public class FirefliesMod
         });
     }
 
-    private void enqueueIMC(final InterModEnqueueEvent event)
-    {
-        // some example code to dispatch IMC to another mod
-    }
-
-    private void processIMC(final InterModProcessEvent event)
-    {
-        // some example code to receive and process InterModComms from other mods
-    }
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
