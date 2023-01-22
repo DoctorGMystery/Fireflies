@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "dyed_firefly_lantern",
+  "group": "colored_firefly_lantern",
   "pattern": [
     "#C#",
     "PTP",

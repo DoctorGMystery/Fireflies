@@ -35,7 +35,7 @@ repositories{
 }
 apply plugin: 'maven-publish'
 
-version = '1.19-1.8.1'
+version = '1.19-1.8.2'
 group = 'de.doctorg.fireflies' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'fireflies'
 
@@ -135,7 +135,7 @@ jar {
         attributes([
                 "Specification-Title": "fireflies",
                 "Specification-Vendor": "DoctorGMystery",
-                "Specification-Version": "1.8.1", // We are version 1 of ourselves
+                "Specification-Version": "1.8.2", // We are version 1 of ourselves
                 "Implementation-Title": project.name,
                 "Implementation-Version": "${version}",
                 "Implementation-Vendor" :"DoctorGMystery",
