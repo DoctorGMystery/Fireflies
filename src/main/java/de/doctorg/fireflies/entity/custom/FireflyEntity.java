@@ -7,6 +7,7 @@ import de.doctorg.fireflies.tileentity.LightEmittingBlockTileEntity;
 import de.doctorg.fireflies.tileentity.ModTileEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
@@ -231,8 +232,7 @@ public class FireflyEntity extends ParrotEntity{
 
         public boolean shouldExecute() {
             Block blockAtPosition = this.parentEntity.world.getBlockState(this.parentEntity.getPosition()).getBlock();
-            return blockAtPosition == Blocks.WATER ||
-                    blockAtPosition == Blocks.LAVA;
+            return blockAtPosition instanceof FlowingFluidBlock;
         }
         public void tick() {
             this.parentEntity.Cooldown = 30;

@@ -5,7 +5,7 @@ issueTrackerURL="https://github.com/DoctorGMystery/Fireflies/issues" #optional
 
 [[mods]] #mandatory
 modId="fireflies" #mandatory
-version="1.3.6" #mandatory
+version="1.3.7" #mandatory
 displayName="Fireflies" #mandatory
 logoFile="examplemod.png" #optional
 credits="Credits goes to Kaupenjoe for his amazing tutorials!" #optional
