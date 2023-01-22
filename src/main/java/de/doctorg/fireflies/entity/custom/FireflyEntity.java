@@ -27,6 +27,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -237,8 +238,7 @@ public class FireflyEntity extends Parrot {
         @Override
         public boolean canUse() {
             Block blockAtPosition = this.parentEntity.level.getBlockState(this.parentEntity.blockPosition()).getBlock();
-            return blockAtPosition == Blocks.WATER ||
-                    blockAtPosition == Blocks.LAVA;
+            return blockAtPosition instanceof LiquidBlock;
         }
 
         public void tick() {

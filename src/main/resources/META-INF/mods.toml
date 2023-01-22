@@ -5,7 +5,7 @@ issueTrackerURL="https://github.com/DoctorGMystery/Fireflies/issues" #optional
 
 [[mods]] #mandatory
 modId="fireflies" #mandatory
-version="1.6.1" #mandatory
+version="1.6.2" #mandatory
 displayName="Fireflies" #mandatory
 displayURL="https://www.curseforge.com/minecraft/mc-mods/nights-light" #optional
 logoFile="examplemod.png" #optional

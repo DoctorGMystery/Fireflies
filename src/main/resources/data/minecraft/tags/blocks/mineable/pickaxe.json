@@ -1,0 +1,22 @@
+{
+  "replace": false,
+  "values": [
+    "fireflies:firefly_lantern",
+    "fireflies:white_firefly_lantern",
+    "fireflies:orange_firefly_lantern",
+    "fireflies:magenta_firefly_lantern",
+    "fireflies:light_blue_firefly_lantern",
+    "fireflies:yellow_firefly_lantern",
+    "fireflies:lime_firefly_lantern",
+    "fireflies:pink_firefly_lantern",
+    "fireflies:gray_firefly_lantern",
+    "fireflies:light_gray_firefly_lantern",
+    "fireflies:cyan_firefly_lantern",
+    "fireflies:purple_firefly_lantern",
+    "fireflies:blue_firefly_lantern",
+    "fireflies:brown_firefly_lantern",
+    "fireflies:green_firefly_lantern",
+    "fireflies:red_firefly_lantern",
+    "fireflies:black_firefly_lantern"
+  ]
+}
