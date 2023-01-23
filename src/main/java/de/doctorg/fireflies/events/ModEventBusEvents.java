@@ -5,18 +5,43 @@ import de.doctorg.fireflies.config.custom.FireflySpawnConfig;
 import de.doctorg.fireflies.entity.ModEntityTypes;
 import de.doctorg.fireflies.entity.custom.FireflyEntity;
 import de.doctorg.fireflies.item.ModItems;
+import de.doctorg.fireflies.tags.ModTags;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.List;
 
 @Mod.EventBusSubscriber(modid = FirefliesMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModEventBusEvents {
+
+    @SubscribeEvent
+    public static void addCreative(CreativeModeTabEvent.BuildContents event)
+    {
+        if (event.getTab() == CreativeModeTabs.COLORED_BLOCKS) {
+            List<Item> fireflyLanterns = ForgeRegistries.ITEMS.tags().getTag(ModTags.Items.FIREFLY_LANTERN).stream().toList();
+            for (Item fireflyLantern : fireflyLanterns) {
+                event.accept(fireflyLantern);
+            }
+        }
+        if (event.getTab() == CreativeModeTabs.SPAWN_EGGS) {
+            event.accept(ModItems.FIREFLY_SPAWN_EGG);
+        }
+        if (event.getTab() == CreativeModeTabs.INGREDIENTS) {
+            event.accept(ModItems.FIREFLY_IN_GLASS);
+        }
+    }
+
     @SubscribeEvent
     public static void addEntityAttributes(EntityAttributeCreationEvent event) {
         event.put(ModEntityTypes.FIREFLY.get(), FireflyEntity.setCustomAttributes().build());

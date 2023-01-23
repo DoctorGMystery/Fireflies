@@ -6,6 +6,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.ShapedRecipe;
@@ -40,7 +41,7 @@ public class LevelFireflyLanternRecipeMaker {
             Ingredient fireflyInGlassIngredient = Ingredient.of(ModItems.FIREFLY_IN_GLASS.get());
             NonNullList<Ingredient> inputs = NonNullList.of(Ingredient.EMPTY, new Ingredient[]{lanternIngredient, fireflyInGlassIngredient});
             ResourceLocation id = new ResourceLocation("fireflies", "fireflies.lantern.level." + output.getDescriptionId() + "." + levelTo);
-            ShapedRecipe recipe = new ShapedRecipe(id, group, 3, 3, inputs, output);
+            ShapedRecipe recipe = new ShapedRecipe(id, group, CraftingBookCategory.BUILDING, 3, 3, inputs, output);
             recipes.add(recipe);
         }
 

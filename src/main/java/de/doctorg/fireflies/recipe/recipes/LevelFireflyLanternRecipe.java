@@ -9,6 +9,7 @@ import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -20,8 +21,8 @@ public class LevelFireflyLanternRecipe extends CustomRecipe {
 
     private Item item = null;
 
-    public LevelFireflyLanternRecipe(ResourceLocation idIn) {
-        super(idIn);
+    public LevelFireflyLanternRecipe(ResourceLocation pId, CraftingBookCategory pCategory) {
+        super(pId, pCategory);
     }
 
     @Override
