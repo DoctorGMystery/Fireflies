@@ -1,35 +1,35 @@
 modLoader="javafml" #mandatory
-loaderVersion="[44,)" #mandatory This is typically bumped every Minecraft version by Forge.  The license for you mod. This is mandatory metadata and allows for easier comprehension of your redistributive properties.
+loaderVersion="[45,)" #mandatory This is typically bumped every Minecraft version by Forge.  The license for you mod. This is mandatory metadata and allows for easier comprehension of your redistributive properties.
 license="All rights reserved"
 issueTrackerURL="https://github.com/DoctorGMystery/Fireflies/issues" #optional
 
 [[mods]] #mandatory
 modId="fireflies" #mandatory
-version="1.9.1" #mandatory
+version="1.10.1" #mandatory
 displayName="Fireflies" #mandatory
 displayURL="https://www.curseforge.com/minecraft/mc-mods/nights-light" #optional
-logoFile="examplemod.png" #optional
+logoFile="thumbnail.png" #optional
 credits="Credits goes to Kaupenjoe for his amazing tutorials!" #optional
 authors="DoctorG_Mystery" #optional
 description='''
-Nothing much to say here... Fireflies ya know.
+Not much to say here... Fireflies ya know.
 '''
 
 [[dependencies.fireflies]] #optional
     modId="forge" #mandatory
     mandatory=true #mandatory
-    versionRange="[44,)" #mandatory
+    versionRange="[45.1.0,)" #mandatory
     ordering="NONE"
     side="BOTH"
 [[dependencies.fireflies]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.19.3, 1.19.4)"
+    versionRange="[1.19.4, 1.20)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.fireflies]]
     modId="citadel"
     mandatory=true
-    versionRange="[2.2.3,)"
+    versionRange="[2.3.4,)"
     ordering="NONE"
     side="BOTH"

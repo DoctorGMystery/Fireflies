@@ -3,6 +3,7 @@ package de.doctorg.fireflies.recipe.recipes;
 import de.doctorg.fireflies.item.ModItems;
 import de.doctorg.fireflies.recipe.ModRecipes;
 import de.doctorg.fireflies.tags.ModTags;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
@@ -54,7 +55,7 @@ public class LevelFireflyLanternRecipe extends CustomRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingContainer pContainer) {
+    public ItemStack assemble(CraftingContainer pContainer, RegistryAccess pRegistryAccess) {
         ItemStack itemstack = new ItemStack(item, 1);
         CompoundTag compoundnbt = itemstack.getOrCreateTag();
         ItemStack oldLantern = new ItemStack(Items.AIR, 1);
@@ -75,7 +76,7 @@ public class LevelFireflyLanternRecipe extends CustomRecipe {
     }
 
     @Override
-    public ItemStack getResultItem() {
+    public ItemStack getResultItem(RegistryAccess pRegistryAccess) {
         return new ItemStack(ModItems.FIREFLY_LANTERN.get());
     }
 

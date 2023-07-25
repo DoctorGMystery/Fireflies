@@ -1,7 +1,6 @@
 {
     "pack": {
         "description": "Fireflies resources",
-        "pack_format": 9,
-        "_comment": "Resources needed for the mod Fireflies by DoctorG_Mystery"
+        "pack_format": 12
     }
 }
