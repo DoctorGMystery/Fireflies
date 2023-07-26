@@ -13,7 +13,7 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -26,18 +26,18 @@ import java.util.List;
 public class ModEventBusEvents {
 
     @SubscribeEvent
-    public static void addCreative(CreativeModeTabEvent.BuildContents event)
+    public static void addCreative(BuildCreativeModeTabContentsEvent event)
     {
-        if (event.getTab() == CreativeModeTabs.COLORED_BLOCKS) {
+        if (event.getTabKey() == CreativeModeTabs.COLORED_BLOCKS) {
             List<Item> fireflyLanterns = ForgeRegistries.ITEMS.tags().getTag(ModTags.Items.FIREFLY_LANTERN).stream().toList();
             for (Item fireflyLantern : fireflyLanterns) {
                 event.accept(fireflyLantern);
             }
         }
-        if (event.getTab() == CreativeModeTabs.SPAWN_EGGS) {
+        if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
             event.accept(ModItems.FIREFLY_SPAWN_EGG);
         }
-        if (event.getTab() == CreativeModeTabs.INGREDIENTS) {
+        if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
             event.accept(ModItems.FIREFLY_IN_GLASS);
         }
     }

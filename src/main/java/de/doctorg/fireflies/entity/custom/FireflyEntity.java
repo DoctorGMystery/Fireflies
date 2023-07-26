@@ -66,7 +66,7 @@ public class FireflyEntity extends Parrot {
 
     @Override
     public int getExperienceReward() {
-        return 1 + this.level.random.nextInt(1);
+        return 1 + this.level().random.nextInt(1);
     }
 
     @Override
@@ -118,10 +118,10 @@ public class FireflyEntity extends Parrot {
     public void tick() {
         super.tick();
         if (this.Cooldown == 0) {
-            if (checkForPlayerIsNearby(this.blockPosition(), this.level)) {
-                if (!level.isClientSide)
+            if (checkForPlayerIsNearby(this.blockPosition(), this.level())) {
+                if (!level().isClientSide)
                 {
-                    if (!level.isDay()) {
+                    if (!level().isDay()) {
                         if (getLightedTime() == -1) {
                             setLightedTime(0);
                         }
@@ -137,9 +137,9 @@ public class FireflyEntity extends Parrot {
                             this.entityData.set(LAST_LIGHT_PHASE, 0);
                         }
                         if (getLightedTime() != 0) {
-                            if (this.level.getBlockState(this.blockPosition()) == Blocks.AIR.defaultBlockState() || this.level.getBlockState(this.blockPosition()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().defaultBlockState()) {
-                                this.level.setBlock(this.blockPosition(), ModBlocks.LIGHT_EMITTING_BLOCK.get().defaultBlockState(), 3);
-                                updateTileEntity(this.blockPosition(), this.level);
+                            if (this.level().getBlockState(this.blockPosition()) == Blocks.AIR.defaultBlockState() || this.level().getBlockState(this.blockPosition()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().defaultBlockState()) {
+                                this.level().setBlock(this.blockPosition(), ModBlocks.LIGHT_EMITTING_BLOCK.get().defaultBlockState(), 3);
+                                updateTileEntity(this.blockPosition(), this.level());
 
                                 if (this.blockEntity != null) {
                                     this.blockEntity.setId(this.getUUID().toString());
@@ -149,12 +149,12 @@ public class FireflyEntity extends Parrot {
                         }
 
                         if (getUnlightedTime() != 0) {
-                            updateTileEntity(this.blockPosition(), this.level);
+                            updateTileEntity(this.blockPosition(), this.level());
                             {
                                 if (this.blockEntity != null) {
                                     if (this.blockEntity.getId() != null) {
                                         if (this.blockEntity.getId().equals(this.getUUID().toString())) {
-                                            level.setBlock(this.blockEntity.getBlockPos(), Blocks.AIR.defaultBlockState(), 3);
+                                            level().setBlock(this.blockEntity.getBlockPos(), Blocks.AIR.defaultBlockState(), 3);
                                         }
                                     }
                                 }
@@ -166,9 +166,9 @@ public class FireflyEntity extends Parrot {
                         setUnlightedTime(-1);
                     }
 
-                    this.setLighted(level.getBlockState(this.blockPosition()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().defaultBlockState() ||
-                            (level.getBlockState(this.blockPosition()) == Blocks.AIR.defaultBlockState() && !level.isDay() && this.getLightedTime() != 0));
-                    if (level.isDay()) {
+                    this.setLighted(level().getBlockState(this.blockPosition()) == ModBlocks.LIGHT_EMITTING_BLOCK.get().defaultBlockState() ||
+                            (level().getBlockState(this.blockPosition()) == Blocks.AIR.defaultBlockState() && !level().isDay() && this.getLightedTime() != 0));
+                    if (level().isDay()) {
                         this.setLighted(false);
                     }
                 }
@@ -212,9 +212,9 @@ public class FireflyEntity extends Parrot {
     }
 
     public void updateTileEntity(BlockPos pos, Level level) {
-        if (level.getBlockEntity(pos) != null) {
-            if (level.getBlockEntity(pos).getType() == ModBlockEntities.LIGHT_EMITTING_TILE.get()) {
-                blockEntity = (LightEmittingBlockBlockEntity) level.getBlockEntity(pos);
+        if (level().getBlockEntity(pos) != null) {
+            if (level().getBlockEntity(pos).getType() == ModBlockEntities.LIGHT_EMITTING_TILE.get()) {
+                blockEntity = (LightEmittingBlockBlockEntity) level().getBlockEntity(pos);
             } else {
                 blockEntity = null;
             }
@@ -237,7 +237,7 @@ public class FireflyEntity extends Parrot {
 
         @Override
         public boolean canUse() {
-            Block blockAtPosition = this.parentEntity.level.getBlockState(this.parentEntity.blockPosition()).getBlock();
+            Block blockAtPosition = this.parentEntity.level().getBlockState(this.parentEntity.blockPosition()).getBlock();
             return blockAtPosition instanceof LiquidBlock;
         }
 
