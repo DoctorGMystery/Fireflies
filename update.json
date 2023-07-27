@@ -1,0 +1,50 @@
+{
+  "homepage": "https://legacy.curseforge.com/minecraft/mc-mods/nights-light",
+  "promos": {
+    "1.20.1-latest": "1.11.0",
+    "1.20.1-recommended": "1.11.0",
+    "1.20-latest": "1.11.0",
+    "1.20-recommended": "1.11.0",
+    "1.19.4-latest": "1.10.1",
+    "1.19.4-recommended": "1.10.1",
+    "1.19.3-latest": "1.9.1",
+    "1.19.3-recommended": "1.9.1",
+    "1.19.2-latest": "1.8.2",
+    "1.19.2-recommended": "1.8.2",
+    "1.19.1-latest": "1.8.2",
+    "1.19.1-recommended": "1.8.2",
+    "1.19-latest": "1.8.2",
+    "1.19-recommended": "1.8.2",
+    "1.18.2-latest": "1.7.2",
+    "1.18.2-recommended": "1.7.2",
+    "1.18.1-latest": "1.6.2",
+    "1.18.1-recommended": "1.6.2",
+    "1.18-latest": "1.5.2",
+    "1.18-recommended": "1.5.2",
+    "1.17.1-latest": "1.4.3",
+    "1.17.1-recommended": "1.4.3",
+    "1.16.5-latest": "1.3.7",
+    "1.16.5-recommended": "1.3.7"
+  },
+  "1.20.1": {
+    "1.11.0": "port to 1.20 and 1.20.1"
+  },
+  "1.19.4": {
+    "1.10.1": "port to 1.19.4"
+  },
+  "1.19.3": {
+    "1.9.1": "port to 1.19.3"
+  },
+  "1.19.2": {
+    "1.8.2": "small change to recipe of firefly lanterns, last update for 1.18.2 (unless new bugs are found)"
+  },
+  "1.18.2": {
+    "1.7.2": "fixing firefly lanterns not dropping themself, additions to 'firefly in glass' and firefly lanterns items, last update for 1.18.2 (unless new bugs are found)"
+  },
+  "1.17.1": {
+    "1.4.3": "fixing firefly lanterns not dropping themself, additions to 'firefly in glass' and firefly lanterns items, last update for 1.17.1 (unless new bugs are found)"
+  },
+  "1.16.5": {
+    "1.3.7": "fixing firefly lanterns not dropping themself, additions to 'firefly in glass' and firefly lanterns items, last update for 1.16.5 (unless new bugs are found)"
+  }
+}
